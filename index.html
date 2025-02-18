@@ -148,14 +148,14 @@
         <li><a href="#dataset">2. DropletVideo-10M Dataset</a></li>
         <li><a href="#overview">3. DropletVideo Method Overview</a></li>
         <!-- <li><a href="#result">3. Quantitative Result</a></li> -->
-        <li><a href="#ui">4. Interactive UI</a></li>
-        <li><a href="#text2short">5. Text to 5-second Short Video Generation</a></li>
-        <li><a href="#text2long">6. Text to 30-second Long Video Generation</a></li>
-        <li><a href="#image2video">7. Zero-shot Image to Video Generation</a></li>
-        <li><a href="#text2shortcomparison">8. Text to Short Video Qualitative Comparison</a></li>
+        <li><a href="#Integral">4. Integral Spatio-temporal Consistency</a></li>
+        <li><a href="#3DConsistency">5. 3D Consistency</a></li>
+        <li><a href="#Controllable">6. Controllable Motion Density</a></li>
+        <li><a href="#CameraMotion">7. Camera Motion</a></li>
+        <!-- <li><a href="#text2shortcomparison">8. Text to Short Video Qualitative Comparison</a></li>
         <li><a href="#text2longcomparison">9. Text to Long Video Qualitative Comparison</a></li>
-        <li><a href="#ablation">10. Ablation Studies</a></li>
-        <li><a href="#bidir">11. Comparison with Bidirectional Teacher</a></li>
+        <li><a href="#ablation">10. Ablation Studies</a></li> -->
+        <!-- <li><a href="#bidir">11. Comparison with Bidirectional Teacher</a></li> -->
         <!-- <li><a href="#postprocessing">12. Frame Interpolation and Deflickering</a></li> -->
       </ul>
     </nav>
@@ -233,7 +233,7 @@
       <br>
       <br>
 
-      <hr>
+      <!-- <hr>
       <div class="container " id="result">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">State-of-the-art Text-to-Video Generation Quality
         </h2>
@@ -263,9 +263,9 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
-      <hr>
+      <!-- <hr>
       <div class="container " id="ui">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Interactive UI</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
@@ -282,9 +282,9 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
-      <hr>
+      <!-- <hr>
       <div class="container " id="text2short">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Text to 5-second Short Video Generation</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
@@ -301,9 +301,9 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
-      <div id="results-carousel" class="carousel results-carousel">
+      <!-- <div id="results-carousel" class="carousel results-carousel">
         <div class="item">
           <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
             <source
@@ -624,16 +624,13 @@
       <br>
       <br>
 
-      <hr>
+      <hr> -->
 
-      <div class="container " id="image2video">
-        <h2 id="scene-comparison" class="title is-3 has-text-centered">Zero-shot Image to Video Generation</h2>
+      <div class="container " id="Integral">
+        <h2 id="scene-comparison" class="title is-3 has-text-centered">Integral Spatio-temporal Consistency</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
-            Thanks to the autoregressive nature of our model, our model inherently supports zero-shot (text-conditioned)
-            image-to-video generation. Below, we present the results using unseen (prompt, image) pairs from the
-            internet with a
-            fixed random seed of 0.
+            DropletVideo focuses on integral spatio-temporal consistency during video generation. It addresses the spatial distortion issues caused by camera movement, ensuring smooth plot progression during camera movement and the spatio-temporal consistency of objects within the scene. More importantly, in the development of a video scenario, the emerging scenes do not affect the behavior of the original video objects.
           </p>
         </div>
       </div>
@@ -647,23 +644,37 @@
         <div class="item">
           <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
             <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_i2v_decoded/video_0000.mp4"
+              src="https://huggingface.co/datasets/MaggieKing/droplet-10m_samples/blob/main/integral_spatio-temporal_consistency_boat.mp4"
               type="video/mp4">
           </video>
-          <p class="prompt-text">a view of a star trail in the night sky</p>
+          <p class="prompt-text">The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. the boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun.\n\nThe camera slowly moves from right to left, gradually revealing more background details. The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene.\n\nAs the camera continues to move left, another small boat is shown quietly moored on the water on the left side, contrasting sharply with the distant city buildings. 
+
+
+            视频中，两艘小船静静地漂浮在宁静的湖面上，壮丽的落日余晖映照在天空中，构成了一幅唯美的画面。右侧的小船缓缓追逐着左侧的小船，金色的余晖映照在水面上，泛起柔和的光辉。
+            
+            摄像机缓缓向左移动，逐渐展现出更多的背景细节。远处的城市天际线在落日的映衬下显得朦胧而梦幻，几座高楼依稀可见。画面左侧，树枝在微风中轻轻摇曳，为画面增添了一丝自然的动感。
+            
+            随着摄像机继续左移，另一艘小船静静地停泊在左侧水面上，与远方的城市建筑形成了鲜明的对比.</p>
         </div>
 
         <div class="item">
           <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
             <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_i2v_decoded/video_0001.mp4"
+              src="https://huggingface.co/datasets/MaggieKing/droplet-10m_samples/blob/main/integral_spatio-temporal_consistency_sum.mp4"
               type="video/mp4">
           </video>
-          <p class="prompt-text">Illustration style of a lightbulb product shot in studio on a background of smaller
-            lightbulbs representing ideas brainstorms.</p>
+          <p class="prompt-text">The video presents a serene and beautiful sunset scene, capturing a flock of birds soaring gracefully under the evening sun, creating a stunning visual. The sun is slowly descending towards the horizon, painting the entire sky in warm shades of orange and red. The clouds, illuminated by the sunset, glow in golden hues, adding to the magnificent scenery.
+
+            At the center of the frame stands a solitary tree, its branches appearing particularly distinct against the backdrop of the setting sun. As the camera moves slowly, a rolling grassland gradually emerges on the left side of the frame. The grassland, bathed in the sunset’s afterglow, displays varying shades of light and shadow, adding a rhythmic natural beauty to the scene.
+            
+            As the camera continues to pan left, the flight path of the birds becomes increasingly visible, forming a bright arc under the glow of the sunset and enhancing the dynamic beauty of the composition. Further along, another tree appears in the frame, its silhouette sharply defined under the warm hues of the setting sun, with crisp and well-defined lines.
+            
+            
+            
+            视频展示了一幅宁静而美丽的日落景象，镜头捕捉到一群鸟儿在夕阳下飞翔，它们在空中优雅地盘旋，形成了一幅动人的画面。太阳正缓缓下沉在地平线上，将整个天空染成温暖的橙红色，云层被夕阳染成金色，显得格外壮丽。画面中央是一棵孤零零的树，它的枝干在夕阳的映衬下显得格外清晰。随着镜头的缓慢移动，画面左侧逐渐显现出一片起伏的草地，草地在夕阳的余晖中呈现出深浅不一的阴影，为整个画面增添了一丝自然的韵律。随着镜头的继续向左移动，鸟群在空中飞行的轨迹逐渐显现出来，它们在夕阳的映照下形成了一道亮丽的弧线，为整个画面增添了动态的美感。随着镜头的继续左移，画面中出现了一棵新的树，映射在夕阳的余晖之下，轮廓分明，线条硬朗而清晰.</p>
         </div>
 
-        <div class="item">
+        <!-- <div class="item">
           <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
             <source
               src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_i2v_decoded/video_0002.mp4"
@@ -689,7 +700,7 @@
               type="video/mp4">
           </video>
           <p class="prompt-text">satellite dish pointed at the night sky.</p>
-        </div>
+        </div> -->
 
       </div>
       <div id="results-carousel" class="carousel results-carousel">
@@ -796,7 +807,7 @@
 
       <hr>
 
-      <div class="container " id="text2shortcomparison">
+      <!-- <div class="container " id="text2shortcomparison">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Text to Short Video Generation Qualitative
           Comparison</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
@@ -812,7 +823,7 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
       <div class="columns is-centered has-text-centered">
         <div class="column">
@@ -913,7 +924,7 @@
       <br>
 
       <hr>
-      <div class="container " id="text2longcomparison">
+      <!-- <div class="container " id="text2longcomparison">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Text to Long Video Generation Qualitative
           Comparison</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
@@ -927,7 +938,7 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
       <div class="columns is-centered has-text-centered">
         <div class="column">
@@ -1038,7 +1049,7 @@
       <br>
       <br>
       <hr>
-      <div class="container " id="ablation">
+      <!-- <div class="container " id="ablation">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Ablation Studies</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
@@ -1055,7 +1066,7 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
       <div class="columns is-centered has-text-centered">
         <div class="column">
@@ -1103,7 +1114,7 @@
       <br>
       <br>
       <hr>
-      <div class="container " id="bidir">
+      <!-- <div class="container " id="bidir">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Comparison with Bidirectional Teacher Model</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
@@ -1118,7 +1129,7 @@
 
       <br>
       <br>
-      <br>
+      <br> -->
 
       <div class="columns is-centered has-text-centered">
         <div class="column">
