@@ -170,7 +170,7 @@
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Abstract</h2>
         <figure class="image is-centered">
           <img src="images/fig_intergralsc.png">
-          <figcaption>
+          <figcaption style="font-size: 1.3rem;" >
             <b>Integral Spatio-temporal Consistency.</b> The "Forrest Gump" clip illustrates object and camera movement. Temporal consistency in plot progression is highlighted in the blue area, whereas the red area denotes spatial consistency due to camera movement. Research, including VBench++<cite>huang2024vbench++</cite>, prioritizes the study of composable spatio-temporal consistency, i.e., concurrent generation of one kind of camera movement and video plot progression. This work explores <b>integral spatio-temporal consistency</b>, considering the sustained impact between different segments under more complex caption descriptions, as well as the interaction between temporal consistency and spatial consistency.
         </figcaption>
         </figure>
@@ -191,13 +191,13 @@
 
       <hr>
       <div class="container " id="overview">
-        <h2 id="obj-comparison" class="title is-3 has-text-centered">CausVid Method Overview</h2>
+        <h2 id="obj-comparison" class="title is-3 has-text-centered">DropletVideo Method Overview</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <figure class="image is-centered">
             <img src="images/methods.jpg">
           </figure>
           <p>
-            we propose an open-source foundational model for video generation, DropletVideo, designed to maintain spatiotemporal consistency during the video generation, enabling the generation of camera movement and plot progression simultaneously. Within DropletVideo, we also develope a variable frame rate sampling strategy, which allows for controllable video generation speed, thereby constraining the pace of visual transitions. Extensive experimental results validate the effectiveness of DropletVideo in preserving the consistency of generated content across both temporal and spatial dimensions. Moreover, visualization results indicate that, compared to other open-source models, DropletVideo exhibits greater potential in terms of three-dimensional consistency
+            The overall framework of </b> DropletVideo</b> . The top left section includes the differences between the conventional sampling strategy (a) and our motion controllable strategy (b). Different videos have varying FPS and frame counts, and the motion control variable M is derived from these parameters. The bottom left section illustrates how M is integrated into the model while the right demonstrates the architecture of the Modality-Expert Transformer.
           </p>
         </div>
       </div>
