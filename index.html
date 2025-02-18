@@ -63,7 +63,7 @@
           <div class="column has-text-centered">
             <br>
 
-            <h1 class="title is-1 publication-title">DropletVideo: A Dataset and Method Exploring <br> Integral Spatio-Temporal Consistent Video Generation</h1>
+            <h1 class="title is-1 publication-title">DropletVideo: A Dataset and Approach to Exploring Integral Spatio-Temporal Consistent Video Generation</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
                 <a href="https://tianweiy.github.io/">X XX</a><sup>1*</sup>,
@@ -113,7 +113,7 @@
     </div>
   </section>
 
-  <section class="hero teaser">
+  <!-- <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body" id="demo">
         <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-top: 20px;">
@@ -134,7 +134,7 @@
         </p>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section>
     <nav id="toc">
@@ -143,7 +143,7 @@
         <button id="toggleButton">▶</button>
       </div>
       <ul id="tocContent" class="collapsed">
-        <li><a href="#demo">Top: Demo video</a></li>
+        <!-- <li><a href="#demo">Top: Demo video</a></li> -->
         <li><a href="#abstract">1. Abstract</a></li>
         <li><a href="#overview">2. DropletVideo Method Overview</a></li>
         <li><a href="#result">3. Quantitative Result</a></li>
@@ -169,11 +169,16 @@
       <div class="container " id="abstract">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">Abstract</h2>
         <figure class="image is-centered">
-          <img src="images/teaser.png">
+          <img src="images/fig_intergralsc.png">
+          <figcaption>
+            <b>Integral Spatio-temporal Consistency.</b> The "Forrest Gump" clip illustrates object and camera movement. Temporal consistency in plot progression is highlighted in the blue area, whereas the red area denotes spatial consistency due to camera movement. Research, including VBench++<cite>huang2024vbench++</cite>, prioritizes the study of composable spatio-temporal consistency, i.e., concurrent generation of one kind of camera movement and video plot progression. This work explores <b>integral spatio-temporal consistency</b>, considering the sustained impact between different segments under more complex caption descriptions, as well as the interaction between temporal consistency and spatial consistency.
+        </figcaption>
         </figure>
+        
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
-            Video generation, as opposed to static image synthesis, accords greater importance to the dynamic variations within the frames and the associated challenges of maintaining temporal and spatial consistency. This involves two critical aspects.
+            Spatio-temporal consistency is a critical research topic in video generation. 
+            A qualified generated video segment must ensure plot plausibility and coherence while maintaining visual consistency of objects and scenes across varying viewpoints. Prior research, especially open-source projects, primarily focuses on either temporal or spatial consistency, or their basic combination, such as concurrent plot generation and camera control. In this paper, we explore integral spatio-temporal consistency, a more intricate challenge. The model must account for inter-frame influence, the synergy between plot progression and camera techniques, and the long-term impact of prior content on subsequent generation. Our work spans from dataset development to the application of advanced methodologies. Initially, we compiled DropletVideo-10M, a comprehensive dataset for spatio-temporal consistency in video generation. This dataset contains 10 million videos with dynamic camera movements and object actions. Each video is paired with an average caption of 206 words. Subsequently, we developed and trained DropletVideo, a video generation model adept at maintaining spatio-temporal consistency.
          </p>
         </div>
 
