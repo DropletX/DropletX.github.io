@@ -229,403 +229,6 @@
         </div>
       </div>
 
-      <br>
-      <br>
-      <br>
-
-      <!-- <hr>
-      <div class="container " id="result">
-        <h2 id="obj-comparison" class="title is-3 has-text-centered">State-of-the-art Text-to-Video Generation Quality
-        </h2>
-        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-          <p>
-            Our model achieves a total score of 84.27 on VBench (see
-            <a href="https://huggingface.co/spaces/Vchitect/VBench_Leaderboard">VBench Leaderboard</a>)
-            ranking the first place among all verified submissions and
-            uniquely enabling fast streaming inference on a single GPU at 9.4 FPS.
-            The radar plot visualizes our method's comprehensive performance advantages across several key metrics,
-            including dynamic degree, aesthetic quality, imaging quality, object class, multiple objects, and human
-            action.
-            Additionally, based on our human evaluation, our fast model surpasses competing approaches—such as
-            CogVideoX, PyramidFlow, MovieGen, and our bidirectional teacher—all of which are significantly slower by
-            several orders of magnitude.
-          </p>
-          <div class="columns is-centered">
-            <figure class="column is-half image">
-              <img src="images/radar.jpg" alt="Radar Plot">
-            </figure>
-            <figure class="column is-half image">
-              <img src="images/preference.jpg" alt="Preference Evaluation">
-            </figure>
-          </div>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <br> -->
-
-      <!-- <hr>
-      <div class="container " id="ui">
-        <h2 id="obj-comparison" class="title is-3 has-text-centered">Interactive UI</h2>
-        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-          <p>
-            We present an interactive user interface (UI) featuring text-to-10s video generation, infinitely long video
-            generation through sliding window inference, and image-to-video generation capabilities.
-          </p>
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/ui.mp4"
-              type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <br> -->
-
-      <!-- <hr>
-      <div class="container " id="text2short">
-        <h2 id="obj-comparison" class="title is-3 has-text-centered">Text to 5-second Short Video Generation</h2>
-        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-          <p>
-            Our model generates high-quality videos from text with an initial latency of just 1.3-second, after which
-            frames are generated
-            continuously in a streaming fashion at approximately 9.4 FPS on a single GPU.
-            Our model supports generation at both 12 and 24 FPS.
-            Below, we present 5-second video results (24 FPS) using prompts from MovieGenBench and a fixed random seed
-            of 0.
-          </p>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <br> -->
-
-      <!-- <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0000.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A scene that is infinitely boring in its infinite complexity</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0001.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">The slow melting of a snowman, with water trickling down its sides and puddles forming
-            around its base as the temperature warms.</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0002.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A dynamic motion shot of a paper airplane morphing into a swan. The pointed nose
-            becomes a graceful neck and head, wings unfolding and expanding. The camera moves around as the flat
-            surfaces gain volume, creases softening into feathers. The tail section splits into webbed feet. The
-            transformation finishes as the swan's plumage turns pristine white, its beak forming from the paper's final
-            fold.</p>
-        </div>
-
-        <div class="item">
-          <video id="berliner" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0003.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">An imposing, atomic-powered, retro-futuristic robot strides down the red carpet at a
-            glamorous movie premiere. Its bulky, gleaming exosuit shines under the bright lights of camera flashes,
-            reflecting the glitz of the event. The robot’s large, round helmet, with its glowing visor, gives it an air
-            of mysterious authority, while the articulated joints in its thick, metallic arms and legs move with
-            precision. Its jetpack, attached to its back, hums softly as it powers the machine forward, and the crowd
-            marvels at the fusion of vintage design and futuristic technology</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0004.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A breathtaking image of a meteor colliding with the surface of a planet, with bright
-            flames and a massive explosion, illustrating the power and destruction of such an event.</p>
-        </div>
-      </div>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0005.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Several giant wooly mammoths approach treading through a snowy meadow, their long wooly
-            fur lightly blows in the wind as they walk, snow covered trees and dramatic snow capped mountains in the
-            distance, mid afternoon light with wispy clouds and a sun high in the distance creates a warm glow, the low
-            camera view is stunning capturing the large furry mammal with beautiful photography, depth of field.</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0006.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Cinematic closeup and detailed portrait of a reindeer in a snowy forest at sunset. The
-            lighting is cinematic and gorgeous and soft and sun-kissed, with golden backlight and dreamy bokeh and lens
-            flares. The color grade is cinematic and magical.</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0007.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">a spooky haunted mansion, with friendly jack o lanterns and ghost characters welcoming
-            trick or treaters to the entrance, tilt shift photography</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0008.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">An extreme close-up of an gray-haired man with a beard in his 60s, he is deep in
-            thought pondering the history of the universe as he sits at a cafe in Paris, his eyes focus on people
-            offscreen as they walk as he sits mostly motionless, he is dressed in a wool coat suit coat with a
-            button-down shirt , he wears a brown beret and glasses and has a very professorial appearance, and the end
-            he offers a subtle closed-mouth smile as if he found the answer to the mystery of life, the lighting is very
-            cinematic with the golden light and the Parisian streets and city in the background, depth of field,
-            cinematic 35mm film.</p>
-        </div>
-
-      </div>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0009.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">close up shot of a woman, police lights flashing in background, cinematic, low contrast
-          </p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0010.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">in a beautifully rendered papercraft world, a steamboat travels across a vast ocean
-            with wispy clouds in the sky. vast grassy hills lie in the distant background, and some sealife is visible
-            near the papercraft ocean's surface</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0011.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Macro shot of a man wearing an antique diving helmet with dark glass and a jetpack
-            walking on the veins of a leaf. Realistic style</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0012.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A Samoyed and a Golden Retriever dog are playfully romping through a futuristic neon
-            city at night. The neon lights emitted from the nearby buildings glistens off of their fur.</p>
-        </div>
-
-        <div class="item">
-          <video id="cereal" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/5s_t2v_decoded/video_0013.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Carefully pouring the milk into the cup, the milk flowed smoothly and the cup was
-            gradually filled with a milky white color</p>
-        </div>
-
-      </div>
-
-      <br>
-      <br>
-      <br>
-
-      <hr>
-
-      <div class="container " id="text2long">
-        <h2 id="obj-comparison" class="title is-3 has-text-centered">Text to 30-second Long Video Generation</h2>
-        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-          <p>
-            While our generator is trained on short video clips, its autoregressive nature enables it to produce videos
-            of infinite length using sliding window inference. Below, we present 30-second video results (24 FPS)
-            generated with
-            prompts from MovieGenBench and a fixed random seed of 0.
-          </p>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <br>
-
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0000.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Miniature adorable monsters made out of wool and felt, dancing with each other, 3d
-            render, octane, soft lighting, dreamy bokeh, cinematic.</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0001.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Panda bear wearing gold-plated stiletto shoes strutting with a sassy demeanor through a
-            haute couture runway</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0002.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">In a magical garden, plants change colors with each passing breeze, their leaves
-            shimmering and fluttering as a person walks through, reaching out to touch the transforming flora.</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0003.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Baby dragon</p>
-        </div>
-      </div>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0004.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Camera tracking shot. A man walking down a city street, holding a coffee cup in his
-            hand. He is wearing a dark suit and red tie.</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0005.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A bear made of strawberrys is walking in the forest, its eyes looking around as if it
-            is seeing the world for the first time.</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0006.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">3D animation of a small, round, fluffy creature with big, expressive eyes explores a
-            vibrant, enchanted forest. The creature, a whimsical blend of a rabbit and a squirrel, has soft blue fur and
-            a bushy, striped tail. It hops along a sparkling stream, its eyes wide with wonder. The forest is alive with
-            magical elements: flowers that glow and change colors, trees with leaves in shades of purple and silver, and
-            small floating lights that resemble fireflies. The creature stops to interact playfully with a group of
-            tiny, fairy-like beings dancing around a mushroom ring. The creature looks up in awe at a large, glowing
-            tree that seems to be the heart of the forest.</p>
-        </div>
-
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0007.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">The gentle bubbling and evaporation of water in a natural hot spring, with mist rising
-            and drifting across the surrounding landscape.</p>
-        </div>
-      </div>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0008.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">Visual: A night scene in a city with wet streets reflecting city lights. The camera
-            starts on the reflection in a puddle and pulls up to reveal the source of the reflection—a glowing neon
-            sign—then continues to pull back to show the rain-soaked streets. Camera Movement: Start focused on a
-            close-up of the puddle's reflection, then pull up and back in one fluid motion to reveal the full context of
-            the rainy cityscape.</p>
-        </div>
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0009.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">An adorable happy otter confidently stands on a surfboard wearing a yellow lifejacket,
-            riding along turquoise tropical waters near lush tropical islands, 3D digital render art style.</p>
-        </div>
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0010.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A llama sits in a cozy reading nook, surrounded by plush pillows and soft blankets.
-            Warm, golden lighting from a floor lamp creates a welcoming atmosphere. The llama reads a picture book
-            aloud, using expressive voices for the characters. The camera captures the llama's animated face and the
-            illustrations in the book.</p>
-        </div>
-        <div class="item">
-          <video id="item" controls preload="metadata" autoplay muted loop playsinline>
-            <source
-              src="https://huggingface.co/datasets/tianweiy/causvid_website/resolve/main/videos/30s_t2v_decoded/video_0011.mp4"
-              type="video/mp4">
-          </video>
-          <p class="prompt-text">A drone camera circles around a beautiful historic church built on a rocky outcropping
-            along the Amalfi Coast, the view showcases historic and magnificent architectural details and tiered
-            pathways and patios, waves are seen crashing against the rocks below as the view overlooks the horizon of
-            the coastal waters and hilly landscapes of the Amalfi Coast Italy, several distant people are seen walking
-            and enjoying vistas on patios of the dramatic ocean views, the warm glow of the afternoon sun creates a
-            magical and romantic feeling to the scene, the view is stunning captured with beautiful photography.</p>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <br>
-
-      <hr> -->
-
       <div class="container " id="Integral">
         <h2 id="scene-comparison" class="title is-3 has-text-centered">Integral Spatio-temporal Consistency</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
@@ -633,41 +236,41 @@
             DropletVideo focuses on integral spatio-temporal consistency during video generation. It addresses the spatial distortion issues caused by camera movement, ensuring smooth plot progression during camera movement and the spatio-temporal consistency of objects within the scene. More importantly, in the development of a video scenario, the emerging scenes do not affect the behavior of the original video objects.
           </p>
         </div>
+
+        <br>
+        <br>
+        
+        <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+          <!-- First video -->
+          <div class="video-item" style="width: 48%; vertical-align: top;">
+            <video src="videos/integral_spatio-temporal_consistency_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px;">
+              The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. the boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun.
+              The camera slowly moves from right to left, gradually revealing more background details. The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene.
+              As the camera continues to move left, another small boat is shown quietly moored on the water on the left side, contrasting sharply with the distant city buildings. 
+              <br>
+              <br>
+              视频中，两艘小船静静地漂浮在宁静的湖面上，壮丽的落日余晖映照在天空中，构成了一幅唯美的画面。右侧的小船缓缓追逐着左侧的小船，金色的余晖映照在水面上，泛起柔和的光辉。
+              摄像机缓缓向左移动，逐渐展现出更多的背景细节。远处的城市天际线在落日的映衬下显得朦胧而梦幻，几座高楼依稀可见。画面左侧，树枝在微风中轻轻摇曳，为画面增添了一丝自然的动感。
+              随着摄像机继续左移，另一艘小船静静地停泊在左侧水面上，与远方的城市建筑形成了鲜明的对比。</p>
+          </div>
+  
+          <!-- Second video -->
+          <div class="video-item" style="width:48%; vertical-align: top;">
+            <video src="videos/integral_spatio-temporal_consistency_sun.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px;">
+              The video presents a serene and beautiful sunset scene, capturing a flock of birds soaring gracefully under the evening sun, creating a stunning visual. The sun is slowly descending towards the horizon, painting the entire sky in warm shades of orange and red. The clouds, illuminated by the sunset, glow in golden hues, adding to the magnificent scenery.
+              At the center of the frame stands a solitary tree, its branches appearing particularly distinct against the backdrop of the setting sun. As the camera moves slowly, a rolling grassland gradually emerges on the left side of the frame. The grassland, bathed in the sunset’s afterglow, displays varying shades of light and shadow, adding a rhythmic natural beauty to the scene.
+              As the camera continues to pan left, the flight path of the birds becomes increasingly visible, forming a bright arc under the glow of the sunset and enhancing the dynamic beauty of the composition. Further along, another tree appears in the frame, its silhouette sharply defined under the warm hues of the setting sun, with crisp and well-defined lines.
+              <br>
+              <br>
+              视频展示了一幅宁静而美丽的日落景象，镜头捕捉到一群鸟儿在夕阳下飞翔，它们在空中优雅地盘旋，形成了一幅动人的画面。太阳正缓缓下沉在地平线上，将整个天空染成温暖的橙红色，云层被夕阳染成金色，显得格外壮丽。画面中央是一棵孤零零的树，它的枝干在夕阳的映衬下显得格外清晰。随着镜头的缓慢移动，画面左侧逐渐显现出一片起伏的草地，草地在夕阳的余晖中呈现出深浅不一的阴影，为整个画面增添了一丝自然的韵律。随着镜头的继续向左移动，鸟群在空中飞行的轨迹逐渐显现出来，它们在夕阳的映照下形成了一道亮丽的弧线，为整个画面增添了动态的美感。随着镜头的继续左移，画面中出现了一棵新的树，映射在夕阳的余晖之下，轮廓分明，线条硬朗而清晰.</p>
+          </div>
+  
+        </div>
       </div>
 
-      <br>
-      <br>
-      <br>
 
-
-      <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- First video -->
-        <div class="video-item" style="width: 48%; vertical-align: top;">
-          <video src="videos/integral_spatio-temporal_consistency_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px;">
-            The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. the boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun.
-            The camera slowly moves from right to left, gradually revealing more background details. The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene.
-            As the camera continues to move left, another small boat is shown quietly moored on the water on the left side, contrasting sharply with the distant city buildings. 
-            <br>
-            <br>
-            视频中，两艘小船静静地漂浮在宁静的湖面上，壮丽的落日余晖映照在天空中，构成了一幅唯美的画面。右侧的小船缓缓追逐着左侧的小船，金色的余晖映照在水面上，泛起柔和的光辉。
-            摄像机缓缓向左移动，逐渐展现出更多的背景细节。远处的城市天际线在落日的映衬下显得朦胧而梦幻，几座高楼依稀可见。画面左侧，树枝在微风中轻轻摇曳，为画面增添了一丝自然的动感。
-            随着摄像机继续左移，另一艘小船静静地停泊在左侧水面上，与远方的城市建筑形成了鲜明的对比。</p>
-        </div>
-
-        <!-- Second video -->
-        <div class="video-item" style="width:48%; vertical-align: top;">
-          <video src="videos/integral_spatio-temporal_consistency_sun.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px;">
-            The video presents a serene and beautiful sunset scene, capturing a flock of birds soaring gracefully under the evening sun, creating a stunning visual. The sun is slowly descending towards the horizon, painting the entire sky in warm shades of orange and red. The clouds, illuminated by the sunset, glow in golden hues, adding to the magnificent scenery.
-            At the center of the frame stands a solitary tree, its branches appearing particularly distinct against the backdrop of the setting sun. As the camera moves slowly, a rolling grassland gradually emerges on the left side of the frame. The grassland, bathed in the sunset’s afterglow, displays varying shades of light and shadow, adding a rhythmic natural beauty to the scene.
-            As the camera continues to pan left, the flight path of the birds becomes increasingly visible, forming a bright arc under the glow of the sunset and enhancing the dynamic beauty of the composition. Further along, another tree appears in the frame, its silhouette sharply defined under the warm hues of the setting sun, with crisp and well-defined lines.
-            <br>
-            <br>
-            视频展示了一幅宁静而美丽的日落景象，镜头捕捉到一群鸟儿在夕阳下飞翔，它们在空中优雅地盘旋，形成了一幅动人的画面。太阳正缓缓下沉在地平线上，将整个天空染成温暖的橙红色，云层被夕阳染成金色，显得格外壮丽。画面中央是一棵孤零零的树，它的枝干在夕阳的映衬下显得格外清晰。随着镜头的缓慢移动，画面左侧逐渐显现出一片起伏的草地，草地在夕阳的余晖中呈现出深浅不一的阴影，为整个画面增添了一丝自然的韵律。随着镜头的继续向左移动，鸟群在空中飞行的轨迹逐渐显现出来，它们在夕阳的映照下形成了一道亮丽的弧线，为整个画面增添了动态的美感。随着镜头的继续左移，画面中出现了一棵新的树，映射在夕阳的余晖之下，轮廓分明，线条硬朗而清晰.</p>
-        </div>
-
-      </div>
 
       <!-- <div id="results-carousel" class="carousel results-carousel"> -->
 
