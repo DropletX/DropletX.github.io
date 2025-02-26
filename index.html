@@ -135,7 +135,7 @@
       </div>
     </div>
   </section> -->
-
+  
   <section>
     <nav id="toc">
       <div class="toc-header">
@@ -152,6 +152,7 @@
         <li><a href="#3DConsistency">5. 3D Consistency</a></li>
         <li><a href="#Controllable">6. Controllable Motion Density</a></li>
         <li><a href="#CameraMotion">7. Camera Motion</a></li>
+        <li><a href="#Comparison">8. Comparison with closed-source models</a></li>
         <!-- <li><a href="#text2shortcomparison">8. Text to Short Video Qualitative Comparison</a></li>
         <li><a href="#text2longcomparison">9. Text to Long Video Qualitative Comparison</a></li>
         <li><a href="#ablation">10. Ablation Studies</a></li> -->
@@ -478,6 +479,103 @@
             <p style="word-wrap: break-word; min-height: 50px;text-align: left;">
               <b style="color: blue;">Camera Pan right And Tilt up .</b>
               A panoramic view of a tranquil lake, with clear water, surrounded by lush mountains and blue skies with white clouds. In the opening shot, the lake occupies most of the picture, with the sunlight shining on the lake forming a faint golden halo. The towering mountains on the left and the reflections of the trees are clearly visible in the lake, with green vegetation at the foot of the mountains surrounding the lakeshore. The camera slowly moves to the right, gradually revealing the more expansive lake in the distance and the mountains surrounding the lake. These mountains, under the reflection of the sunlight, have increasingly clear outlines, with thick snow covering the peaks, majestic and imposing. Continuing to move to the right, the silhouette of the distant mountains begins to faintly fade out, and the blue lake water stretches towards the distance, connecting with the more expansive sky. The sky is azure, with a few white clouds floating, adding dynamism and vitality to the entire scene. Finally, the camera slowly tilts upwards, capturing the more expansive sky and the magnificent view of the lake.
+            </p>
+          </div>
+  
+        </div>
+
+      </div>
+
+      <br>
+      <br>
+      <br>
+      
+      <hr>
+      <div class="container " id="Comparison">
+        <h2 id="scene-comparison" class="title is-3 has-text-centered">Comparison with closed-source models</h2>
+        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+          <p>
+            The DropletVideo demonstrates commendable characteristics across various styles of camera motion . These camera motions contain 'camera truck right', 'camera truck left', 'camera pedestal down', 'camera tilt up', 'camera dolly in', and so on. 
+          </p>
+        </div>
+
+        <br>
+
+        <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+          <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+            <p>
+              The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. the boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun.\n\nThe camera slowly moves from right to left, gradually revealing more background details. The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene.\n\nAs the camera continues to move left, another small boat is shown quietly moored on the water on the left side, contrasting sharply with the distant city buildings. 
+            </p>
+          </div>
+          <!-- droplet -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="videos/integral_spatio-temporal_consistency_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>DropletVideo（ours） .</b> 
+            </p>
+          </div>
+  
+          <!-- hailuo -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/hailuo/hailuo_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>hai luo</b> 
+            </p>
+          </div>
+
+          <!-- 阿里同义万象 -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/阿里通义万象/阿里通义万象_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>tongyi wanxiang</b> 
+            </p>
+          </div>
+
+          <!-- 腾讯混元 -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/腾讯混元/hunyuan_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>hunyuan</b> 
+            </p>
+          </div>
+
+          <!-- kling -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/kling/kling_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>kling</b> 
+            </p>
+          </div>
+
+          <!-- runwayml -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/runwayml/runwayml_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>runwayml</b> 
+            </p>
+          </div>
+
+          <!-- vidu -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/vidu/vidu-boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>vidu</b> 
+            </p>
+          </div>
+
+          <!-- vivago -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/vivago/vivago.ai_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>vivago.ai</b> 
+            </p>
+          </div>
+
+          <!-- 智谱清影 -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="close_source/智谱清影/智谱清影_boat.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>Ying</b> 
             </p>
           </div>
   
