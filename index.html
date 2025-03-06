@@ -62,6 +62,29 @@
   }
 </style>
 
+<style>
+  .dataset-video-container {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 20px; /* 添加间隔 */
+      margin-top: 20px;
+  }
+  .video-item {
+      flex: 1 1 45%; /* 每个视频占45%的宽度，可以根据需要调整 */
+      max-width: 45%;
+  }
+  .video-item video {
+      width: 100%;
+      height: auto;
+  }
+  .video-caption {
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 10px;
+  }
+</style>
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -219,7 +242,9 @@
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
             <a href="https://github.com/facebookresearch/MovieGenBench" target="_blank">MovieGenBench</a>
+            <br>
             <a href="https://vchitect.github.io/VBench-project/" target="_blank">VBench++</a>
+            <br>
             Spatio-temporal consistency is a critical research topic in video generation. 
             A qualified generated video segment must ensure plot plausibility and coherence while maintaining visual consistency of objects and scenes across varying viewpoints.Prior research, especially open-source projects, primarily focuses on either temporal or spatial consistency, or their basic combination, such as concurrent plot generation and camera control. 
             In this paper, we explore integral spatio-temporal consistency, a more intricate challenge. The model must account for inter-frame influence, the synergy between plot progression and camera techniques, and the long-term impact of prior content on subsequent generation. Our work spans from dataset development to the application of advanced methodologies. Initially, we compiled DropletVideo-10M, a comprehensive dataset for spatio-temporal consistency in video generation.This dataset contains 10 million videos with dynamic camera movements and object actions. Each video is paired with an average caption of 206 words.Subsequently, we developed and trained DropletVideo, a video generation model adept at maintaining spatio-temporal consistency.
@@ -236,22 +261,35 @@
       <hr>
       <div class="container " id="dataset">
         <h2 id="obj-comparison" class="title is-3 has-text-centered">DropletVideo-10M Dataset</h2>
-        <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <div class="dataset-video-container">
+          <div class="video-item">
+              <video src="videos/数据集-Panda-70M.mp4" autoplay loop muted></video>
+              <div class="video-caption">
+                  <b>Video A: Description of Video A</b>
+              </div>
+          </div>
+          <div class="video-item">
+              <video src="videos/数据集-_HaNdn0-JQU--053270_054160.mp4" autoplay loop muted></video>
+              <div class="video-caption">
+                  <b>Video B: Description of Video B</b>
+              </div>
+          </div>
+        </div>
+        <p>
+          <b>DropletVideo-10M</b> dataset presents a novel avenue for the investigation of comprehensive spatio-temporal consistency in video generation. It comprises 10 million spatio-temporal videos, each accompanied by an average caption length of 206 words. When contrasted with the Panda70M dataset, the captions in our videos demonstrate a significantly higher degree of spatio-temporal information, as indicated by the highlighted text in red.
+         </p>
+
+        <!-- <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <div style="display: flex; align-items: flex-end;">
             <figure style="margin-right: 20px;">
               <img src="images/fig2-panda70m_dropletvideo10m.png">
             </figure>
-        
-            <!-- <figure>
-              <img src="images/Fig2b-dropletvideo-10m.png">
-              <figcaption style="font-size: 1.5rem;">DropletVideo-10M</figcaption>
-            </figure> -->
           </div>
 
           <p>
            <b>DropletVideo-10M</b> dataset presents a novel avenue for the investigation of comprehensive spatio-temporal consistency in video generation. It comprises 10 million spatio-temporal videos, each accompanied by an average caption length of 206 words. When contrasted with the Panda70M dataset, the captions in our videos demonstrate a significantly higher degree of spatio-temporal information, as indicated by the highlighted text in red.
           </p>
-        </div>
+        </div> -->
       </div>
 
       <br>
