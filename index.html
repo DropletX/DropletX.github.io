@@ -29,7 +29,37 @@
       tocHeader.addEventListener('click', toggleMenu);
     });
 
+
   </script>
+
+<style>
+  .media-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+  }
+  .media-container figure,
+  .media-container .video-item {
+      margin: 0;
+  }
+  .media-container figure {
+      flex: 0 0 60%;
+  }
+  .media-container .video-item {
+      flex: 0 0 40%;
+  }
+  .video-item video {
+      width: 100%;
+      height: auto;
+  }
+  .content {
+      font-size: 1.5rem;
+      line-height: 1.8;
+      text-align: justify;
+      margin-top: 20px;
+  }
+</style>
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
