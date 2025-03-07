@@ -86,30 +86,6 @@
         }
 </style>
 
-<style>
-  .video-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1%;
-      justify-content: space-between;
-  }
-  .video-item {
-      width: 30%; /* 每个视频占据30%的宽度 */
-      vertical-align: top;
-      margin-bottom: 20px;
-  }
-  .video-item video {
-      width: 100%;
-      height: auto;
-  }
-  .video-caption {
-      word-wrap: break-word;
-      min-height: 50px;
-      text-align: center;
-      margin-top: 10px;
-  }
-</style>
-
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -554,33 +530,35 @@
       
       <hr>
       <div class="container " id="Controllable">
-        <h2 id="scene-comparison" class="title is-3 has-text-centered">Controllable Motion Density</h2>
-        <div class="video-gallery">
-          <!-- First video -->
-          <div class="video-item">
-              <video src="videos/835_672x384x85@8.0_1739735378.mp4" autoplay loop muted></video>
-              <p class="video-caption">
-                  <b>fps=8</b>
-              </p>
+        <h2 id="scene-comparison" class="title is-3 has-text-centered">Controllable Motion Density</h2>  
+        <!-- <br> -->
+        <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="videos/835_672x384x85@8.0_1739735378.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>fps=8</b> 
+            </p>
           </div>
           
-          <!-- Second video -->
-          <div class="video-item">
-              <video src="videos/835_672x384x85@12.0_1739789908.mp4" autoplay loop muted></video>
-              <p class="video-caption">
-                  <b>fps=12</b>
-              </p>
+          <!-- 2 -->
+          <!-- kling -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="videos/835_672x384x85@12.0_1739789908.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>fps=12</b> 
+            </p>
           </div>
           
-          <!-- Third video -->
-          <div class="video-item">
-              <video src="videos/835_672x384x85@16.0_1739724748.mp4" autoplay loop muted></video>
-              <p class="video-caption">
-                  <b>fps=16</b>
-              </p>
+
+          <!-- 3 -->
+          <!-- vidu -->
+          <div class="video-item" style="width: 30%; vertical-align: top;">
+            <video src="videos/835_672x384x85@16.0_1739724748.mp4" autoplay loop muted style="width: 100%;"></video>
+            <p style="word-wrap: break-word; min-height: 50px; text-align: center;">  
+              <b>fps=16</b> 
+            </p>
           </div>
       </div>
-      
         
 
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
