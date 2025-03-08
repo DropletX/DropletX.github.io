@@ -384,7 +384,20 @@
             <img src="images/methods.jpg">
           </figure>
           <p>
-           The overall framework of <b>DropletVideo</b> . The top left section includes the differences between the conventional sampling strategy (a) and our motion controllable strategy (b). Different videos have varying FPS and frame counts, and the motion control variable M is derived from these parameters. The bottom left section illustrates how M is integrated into the model while the right demonstrates the architecture of the Modality-Expert Transformer.
+            The video is processed by the 3D causal Variational Autoencoder (VAE) 
+    following adaptive equalization sampling, which is steered by the motion 
+    intensity \(M\). The video feature \(x_v\) is then input into the 
+    Modality-Expert Transformer, depicted on the right side of the figure, 
+    to facilitate video generation in conjunction with the text encoding 
+    \(x_t\), and the combined encoding \(x_{T\&M}\) of the temporal \(T\) and 
+    the motion intensity \(M\). 
+            The upper left part illustrates the contrast between (a) 
+    <strong>the traditional sampling approach</strong> and (b) 
+    <strong>\ourproj{}&rsquo;s adaptive equalization sampling</strong>. 
+    Traditional methods involve random segment interception followed by 
+    fixed-frame-rate sampling of the intercepted segments, whereas 
+    <strong>\ourproj{}</strong> employs adaptive frame rate sampling across 
+    the entire video segments, guided by \(M\).
           </p>
         </div>
       </div>
@@ -586,7 +599,7 @@
         <h2 id="scene-comparison" class="title is-3 has-text-centered">Camera Motion</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
-            DropletVideo demonstrates versatile camera motion generation capabilities including various fundamental movement types, as visualized in Fig. 12. The system produces cinema-standard motions
+            DropletVideo demonstrates versatile camera motion generation capabilities including various fundamental movement types. The system produces cinema-standard motions
             including right/left trucking, vertical pedestal movement, tilt adjustment, axial dollying, and composite pan-tilt operations          
           </p>
         </div>
