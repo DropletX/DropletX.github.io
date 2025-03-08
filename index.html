@@ -392,11 +392,10 @@
     \(x_t\), and the combined encoding \(x_{T\&M}\) of the temporal \(T\) and 
     the motion intensity \(M\). 
             The upper left part illustrates the contrast between (a) 
-    <strong>the traditional sampling approach</strong> and (b) 
-    <strong>\ourproj{}&rsquo;s adaptive equalization sampling</strong>. 
+   the traditional sampling approach and DropletVideo's adaptive equalization sampling>. 
     Traditional methods involve random segment interception followed by 
     fixed-frame-rate sampling of the intercepted segments, whereas 
-    <strong>\ourproj{}</strong> employs adaptive frame rate sampling across 
+    <strong>DropletVideo</strong> employs adaptive frame rate sampling across 
     the entire video segments, guided by \(M\).
           </p>
         </div>
@@ -686,7 +685,10 @@
         <h2 id="scene-comparison" class="title is-3 has-text-centered">Comparison with closed-source models</h2>
         <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
           <p>
-            The DropletVideo demonstrates commendable characteristics across various styles of camera motion . These camera motions contain 'camera truck right', 'camera truck left', 'camera pedestal down', 'camera tilt up', 'camera dolly in', and so on. 
+            To better demonstrate the cumulative spatiotemporal consistency of DropletVideo, we have selected several industry-recognized video generation models for comparison, including Hailuo,  Kling v1.6, Gen-3,  Vidu, Vivago, 
+            Qingying, CogVideoX-Fun, and WanX.
+            Out of the compared models, only CogVideoX-Fun and WanX are open-source, similar to our approach, whereas the remaining models are closed-source.
+            We conducted comparisons using examples from various scenarios mentioned earlier, such as boat, kitchen, lake, snow, staircase, and sunset
           </p>
         </div>
 
