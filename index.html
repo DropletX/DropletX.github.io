@@ -1,1019 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DropletVideo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Droplet 欢迎页</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
   <style>
     body {
-      font-family: 'Noto Sans', sans-serif;
-      background: #f4f7fa;
-    }
-    .hero {
-      background: #e6f2ff;
-      color: white;
-      padding-bottom: 3rem;
-    }
-    .navbar {
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .video-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 24px;
-      justify-items: center;
-    }
-    .video-item {
-      width: 100%;
+      font-family: 'Noto Sans SC', sans-serif;
     }
 
-    .section-title {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      position: relative;
+    .bg-mask {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
     }
-    .section-title::after {
+
+    .timeline-line::before {
       content: '';
-      width: 60px;
-      height: 4px;
-      background: #00d1b2;
-      display: block;
-      margin: 8px auto 0;
-      border-radius: 2px;
-    }
-    .video-item video {
-      width: 100%;
-      max-width: 100%; /* 避免超出格子 */
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    .video-caption {
-      font-size: 0.95rem;
-      text-align: justify;
-      padding: 0.5rem 0;
-    }
-    .buttons.is-centered {
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    /* 修改作者字体、链接样式 */
-    .hero .author-block a {
-      font-size: 1.1rem;
-      font-family: 'Noto Sans', sans-serif;
-      color: 	#4285F4;
-      text-decoration: none;
-      transition: all 0.2s ease;
+      position: absolute;
+      left: 1rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    .hero .author-block a:hover {
-      text-decoration: underline;
-      text-decoration-color: 	#4285F4;
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 9999px;
+      margin-right: 12px;
+      flex-shrink: 0;
     }
-
-    /* 修改右上角标记颜色为黑色 */
-    .hero sup {
-      color: black;
-      font-size: 0.8em;
-    }
-    /* 标题逗号为黑色 */
-    .hero .comma {
-      color: black;
-      margin-right: 0.25em;
-    }
-    /* 滚动框 */
-    .video-caption {
-      font-size: 0.95rem;
-      text-align: justify;
-      padding: 0.5rem 0;
-      max-height: 220px;           /* 固定最大高度 */
-      overflow-y: auto;            /* 添加垂直滚动 */
-      line-height: 1.6;
-      background: #f4f7fa;         /* 可选：背景分隔更清晰 */
-      padding-right: 8px;          /* 为滚动条留点空间 */
-      border-radius: 6px;
-    }
-    .navbar-item {
-    color: black !important;  /* 设置为黑色，并用 !important 覆盖 Bulma 默认颜色 */
-  }
   </style>
-
 </head>
 
-<body>
-  <nav class="navbar is-fixed-top">
-    <div class="navbar-menu is-active">
-      <div class="navbar-start ml-5">
-        <a class="navbar-item" href="#abstract">Abstract</a>
-        <a class="navbar-item" href="#dataset">Dataset</a>
-        <a class="navbar-item" href="#method">Method</a>
-        <a class="navbar-item" href="#Integral">Integral</a>
-        <a class="navbar-item" href="#3DConsistency">3D</a>
-        <a class="navbar-item" href="#Controllable">Motion Density</a>
-        <a class="navbar-item" href="#CameraMotion">Camera Motion</a>
-        <a class="navbar-item" href="#Comparison">Comparison</a>  
-      </div>
+<body class="text-white">
+  <div id="background" class="fixed inset-0 bg-cover bg-center z-0 transition-all duration-1000"></div>
+  <div class="fixed inset-0 bg-mask z-10"></div>
+
+  <main class="relative z-20 min-h-screen flex flex-col items-center pt-10 px-4">
+
+    <!-- 日期与名言 -->
+    <div class="text-center max-w-2xl mb-10">
+      <div class="text-2xl mb-2" id="date-top"></div>
+      <div class="text-base mb-4" id="date-lunar"></div>
+      <div class="text-6xl font-bold mb-8" id="date-number"></div>
+
+      <div class="text-xl leading-relaxed">"what i cannot create i do not understand"</div>
+      <div class="mt-2 text-base text-white/80">Richard Feynman</div>
     </div>
-  </nav>
 
-  <section class="hero is-fullheight is-bold">
-    <div class="hero-body has-text-centered">
-      <div class="container">
-        <h1 class="title is-2 has-text-weight-bold mb-5" style="margin-top: 2rem;">
-          DropletVideo: A Dataset and Approach to Explore Integral Spatio-Temporal Consistent Video Generation
-        </h1>
-      <div class="is-size-6 has-text-centered mb-2" style="line-height: 1.8;">
-        <div class="author-block">
-          <a href="#">Runze Zhang</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Guoguang Du</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Xiaochuan Li</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Qi Jia</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Liang Jin</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Lu Liu</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Jingjing Wang</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Cong Xu</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Zhenhua Guo</a><sup>1</sup><span class="comma">,</span>
-        </div>
-        <div class="author-block">
-          <a href="#">Yaqian Zhao</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Xiaoli Gong</a><sup>2</sup>
-          <a href="#">Rengang Li</a><sup>1,3†</sup><span class="comma">,</span>
-          <a href="#">Baoyu Fan</a><sup>1,2†</sup>
-        </div>
-      </div>
-
-      <!-- 作者单位，黑色字体 -->
-      <div class="is-size-6 mb-5 has-text-black">
-        <sup>1</sup>IEIT, 
-        <sup>2</sup>Nankai University, 
-        <sup>3</sup>Tsinghua University<br>
-        <sup>*</sup>Equal Contribution, <sup>†</sup>Corresponding Authors
-      </div>
-        <video autoplay muted loop playsinline style="max-width: 720px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); margin-top: 1rem;">
-          <source src="videos/camera_dolly_in_302_672x384x85@16.0_1739737721.mp4" type="video/mp4">
-        </video>
-      
-        <div class="columns is-centered mt-4 is-variable is-1">
-          <!-- Paper -->
-          <div class="column is-narrow has-text-centered">
-            <div class="publication-links">
-              <a href="https://huggingface.co/papers/2503.06053" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                <span>Paper (ArXiv)</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Code -->
-          <div class="column is-narrow has-text-centered">
-            <div class="publication-links">
-              <a href="https://github.com/IEIT-AGI/DropletVideo" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon"><i class="fab fa-github"></i></span>
-                <span>Code (Github)</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Dataset 10M -->
-          <div class="column is-narrow has-text-centered">
-            <div class="publication-links">
-              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-10M" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                  <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
-                </span>
-                <span>Datasets (10M)</span>
-              </a>
-            </div>
-          </div>
-
-          <!-- Dataset 1M -->
-          <div class="column is-narrow has-text-centered">
-            <div class="publication-links">
-              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" class="external-link button is-normal is-rounded is-dark">
-                <span class="icon">
-                  <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
-                </span>
-                <span>Datasets (1M) | Most-Qualified</span>
-              </a>
-            </div>
+    <div class="flex justify-center">
+      <div class="relative timeline-line w-full max-w-md flex flex-col items-start gap-6">
+        <!-- 项目节点 -->
+        <div class="flex items-center gap-3">
+          <!-- 时间节点（左边） -->
+          <div class="absolute left-[-70px] text-lg text-white">2025.03</div>
+          
+          <div class="timeline-dot"></div>
+          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
+            <span class="text-lg font-medium">Droplet-Video</span>
+            <a href="index.html"
+              class="text-sm text-white px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-full transition">Enter</a>
           </div>
         </div>
-        
-      <div align="center" style="background: #fff3d4; padding: 12px; border-radius: 8px; margin: 16px 0; color: black;">
-        🔍 <strong>Dataset Note:</strong> 
-        <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" target="_blank"><em>DropletVideo-1M</em></a> 
-         is the premium subset of DropletVideo-10M, filtered with aesthetic score > 4.51 and image quality score > 7.51.
-      </div>
-        
-        <div class="buttons is-centered">
-          <a class="button is-primary is-rounded is-medium" href="#abstract"><i class="fas fa-angle-down mr-2"></i> Explore</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- 原始内容插入起点 -->
-  <main>
-  <section class="section" id="abstract" >
-    <div class="container">
-      <h2 class="section-title">Abstract</h2>
-      <div class="columns is-vcentered">
-        <div class="column is-half">
-          <img src="images/fig_intergralsc.png" alt="Integral Spatio-temporal Consistency">
-        </div>
-        <div class="column is-half">
-          <video src="videos/figure_gan.mp4" autoplay loop muted></video>
-          <p class="has-text-centered mt-2"><b>Examples of spatio-temporal consistency</b></p>
-        </div>
-      </div>
-      <div class="content mt-4">
-        <p>
-          <b>Spatio-temporal consistency</b> is a critical research topic in video generation. A qualified generated video segment must ensure plot plausibility and coherence while maintaining visual consistency of objects and scenes across varying viewpoints.
-          Prior research, especially in open-source projects, primarily focuses on either temporal or spatial consistency, or their basic combination, such as appending a description of a camera movement after a prompt without constraining the outcomes of this movement.
-          However, camera movement may introduce new objects to the scene or eliminate existing ones, thereby overlaying and affecting the preceding narrative. Especially in videos with numerous camera movements, the interplay between multiple plots becomes increasingly complex.
-          This paper introduces and examines integral spatio-temporal consistency, considering the synergy between plot progression and camera techniques, and the long-term impact of prior content on subsequent generation.
-          Our research encompasses dataset construction through to the development of the model. Initially, we constructed a DropletVideo-10M dataset, which comprises 10 million videos featuring dynamic camera motion and object actions.
-          Each video is annotated with an average caption of 206 words, detailing various camera movements and plot developments. Following this, we developed and trained the DropletVideo model, which excels in preserving spatio-temporal coherence during video generation.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="dataset">
-    <div class="container">
-      <h2 class="section-title">DropletVideo-10M Dataset</h2>
-      <div class="content">
-      <p>
-        <b>The DropletVideo-10M dataset</b> features diverse camera movements, long-captioned contextual descriptions, and strong spatio-temporal consistency. 
-        Existing datasets, such as <b>Panda-70M</b>, place less emphasis on camera movement and contain relatively brief captions.  
-        In contrast, <b>DropletVideo-10M</b> consists of spatio-temporal videos that incorporate both camera movement and event progression. Each video is paired with a caption that conveys detailed spatio-temporal information aligned with the video content, with an average caption length of 206 words. The spatio-temporal information is highlighted in red in the figure.
-      </p>
-    </div>
-      <div class="columns">
-        <!-- 左边视频 -->
-        <div class="column is-half">
-          <video src="videos/数据集-Panda-70M.mp4" autoplay loop muted></video>
-          <p class="video-caption">
-            <b>Panda-70M Caption:</b> A person is holding a long haired dachshund in their arms.
-          </p>
-        </div>
-
-        <!-- 右边视频 -->
-        <div class="column is-half">
-          <video src="videos/数据集-_HaNdn0-JQU--053270_054160.mp4" autoplay loop muted></video>
-          <p class="video-caption">
-            <b>DropletVideo-10M Caption:</b> This video captures a scene of a man walking on a city street at night. The lighting is dim, but the background streets and buildings remain clearly visible.
-            <br>
-            The video begins on a nighttime city street, where a man wearing a T-shirt with a colorful pattern and a clip-on microphone appears in front of the camera. His face is blurred. In the background, there are shop windows displaying colorful merchandise, and across the street, there is a roadway with vehicles moving slowly. Streetlights and headlights provide faint illumination to the street.
-            <br>
-            <span style="color: red;">As the man walks while facing the camera</span>, more details of the buildings in the background become visible. A blue sedan passes by on the street, and the shadows of the vehicles flicker on the ground under the lights.
-            <br>
-            Then, <span style="color: red;">the camera pans to the right</span>, revealing a new scene. Another man wearing a black T-shirt enters the frame, walking near the entrance of a store that emits a bright white light from above. At the same time, pedestrians on both sides of the street come into view, and their shadows on the ground become more distinct.
-            <br>
-            <span style="color: red;">As the scene transitions</span>, the camera captures a brightly lit urban district with heavy traffic. A blue SUV is seen queued behind a silver car as vehicles move forward slowly. At this moment, the main subject is shown from behind, walking along a crowded sidewalk. The background consists of trees and building facades adorned with green plants inside the walls.
-            <br>
-            Following the pedestrian’s movement, <span style="color: red;">the camera continues along the street</span>, where traffic remains steady. There are many parked cars along the roadside, including a black sedan.
-            <br>
-            Towards the end of the video, the man continues walking along the same sidewalk. The background features a row of shops, with customers lingering outside and chatting. The surroundings remain lively with the bustling city atmosphere under the night sky.
-            <br>
-            Finally, <span style="color: red;">the camera pulls back towards the side of the street</span>, showing the opposite side still busy with traffic and the flashing city lights.
-          </p>
+        <div class="flex items-center gap-3">
+          <!-- 时间节点（左边） -->
+          <div class="absolute left-[-70px] text-lg text-white">2024.08</div>
+          
+          <div class="timeline-dot"></div>
+          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
+            <span class="text-lg font-medium">Droplet-3D</span>
+            <a href="./droplet-3d/index.html"
+              class="text-sm text-white px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full transition">Enter</a>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- 切换背景 -->
+    <button onclick="refreshContent()" class="mt-8 px-4 py-2 border border-white rounded-full hover:bg-white hover:text-black transition">
+      切换背景
+    </button>
 
-  </section>
+  </main>
 
-<section class="section" id="method">
-  <div class="container">
-    <h2 class="section-title">DropletVideo Model Overview</h2>
-    <div class="content">
-      <p>
-        <b>1. Video Processing Pipeline:</b><br>
-        The video is processed by the 3D causal Variational Autoencoder (VAE)
-        following adaptive equalization sampling, which is steered by the motion
-        intensity <i>M</i>. The video feature <i>x<sub>v</sub></i> is then input into the
-        Modality-Expert Transformer, depicted on the right side of the figure,
-        to facilitate video generation in conjunction with the text encoding
-        <i>x<sub>t</sub></i>, the combined encoding <i>x<sub>T&amp;M</sub></i> of the temporal <i>T</i> and
-        the motion intensity <i>M</i>.
-      </p>
-      <p>
-        <b>2. Diagram Illustration:</b><br>
-        The upper left part illustrates the contrast between (a)
-        the traditional sampling approach and (b) DropletVideo's adaptive equalization sampling.
-      </p>
-      <p>
-        <b>3. Sampling Strategy Comparison:</b><br>
-        Traditional methods involve random segment interception followed by
-        fixed-frame-rate sampling of the intercepted segments, whereas
-        <strong>DropletVideo</strong> employs adaptive frame rate sampling across
-        the entire video segments, guided by <i>M</i>.
-      </p>
-    </div>
-
-
-
-    <figure>
-      <img src="images/methods.jpg" alt="DropletVideo Architecture">
-    </figure>
+  <!-- 音乐播放器 -->
+  <div class="fixed bottom-4 left-4 z-30">
+    <details>
+      <summary class="cursor-pointer text-white">🎵 Music</summary>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX3Ogo9pFvBkY" width="300" height="80"
+        frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+    </details>
   </div>
-</section>
 
-
-<section class="section" id="Integral">
-  <div class="container">
-    <h2 class="section-title">Integral Spatio-temporal Consistency</h2>
-    <div class="content">
-      <p>
-          <b>DropletVideo</b> focuses on integral spatio-temporal consistency during video generation. It addresses the spatial distortion issues caused by camera movement, ensuring smooth plot progression during camera movement and the spatio-temporal consistency of objects within the scene. More importantly, in the development of a video scenario, the emerging scenes do not affect the behavior of the original video objects.
-      </p>
-    </div>
-    
-    <div class="video-gallery">
-      <!-- 船视频 -->
-      <div class="video-item">
-        <video src="videos/integral_spatio-temporal_consistency_boat.mp4" autoplay loop muted></video>
-        <p class="video-caption">The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. the boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun.
-              The camera slowly moves from right to left, gradually revealing more background details. The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene.
-              As the camera continues to move left, another small boat is shown quietly moored on the water on the left side, contrasting sharply with the distant city buildings.
-          </p>
-      </div>
-      
-      <!-- 日落视频 -->
-      <div class="video-item">
-        <video src="videos/integral_spatio-temporal_consistency_sun.mp4" autoplay loop muted></video>
-        <p class="video-caption">The video presents a serene and beautiful sunset scene, capturing a flock of birds soaring gracefully under the evening sun, creating a stunning visual. The sun is slowly descending towards the horizon, painting the entire sky in warm shades of orange and red. The clouds, illuminated by the sunset, glow in golden hues, adding to the magnificent scenery.
-              At the center of the frame stands a solitary tree, its branches appearing particularly distinct against the backdrop of the setting sun. As the camera moves slowly, a rolling grassland gradually emerges on the left side of the frame. The grassland, bathed in the sunset’s afterglow, displays varying shades of light and shadow, adding a rhythmic natural beauty to the scene.
-              As the camera continues to pan left, the flight path of the birds becomes increasingly visible, forming a bright arc under the glow of the sunset and enhancing the dynamic beauty of the composition. Further along, another tree appears in the frame, its silhouette sharply defined under the warm hues of the setting sun, with crisp and well-defined lines.</p>
-      </div>
-    </div>
-    
-    <!-- 添加厨房部分的四个视频 -->
-    <h3 class="subtitle is-4 mt-5">High controllability of Emerging objects</h3>
-    <div class="video-gallery mt-6">
-      <!-- 四个厨房视频 -->
-      <div class="video-item">
-        <video src="videos/dropletvideo_kitchen.mp4" autoplay loop muted></video>
-        <p class="video-caption">
-          The video showcases a chef focusing on the process of cooking in a modern kitchen, with professional kitchen equipment behind him and a clean and tranquil surrounding environment. At the start of the video, the chef is wearing a tall white chef's hat, a black chef's coat, and a white apron, standing in front of the central kitchen counter. The camera focuses on the chef's skillful hands as he uses a bright knife to chop various fresh ingredients on the worktable. These ingredients include red tomatoes, yellow peppers, green cucumbers, and a tall green cauliflower. The vegetables are colorful and neatly arranged. In the background, you can see the metal exhaust hood and several modern stainless-steel kitchen appliances. The kitchen is empty except for the chef, who is working attentively. As the video progresses, the camera slowly pans to the right, and   
-          <span style="color: red;">a red apple gradually enters the frame, which is very fresh.</span>
-        </p>
-      </div>
-      <div class="video-item">
-      <video src="videos/integral2_droplet_image_672x384x85@16_1739409371.mp4" autoplay loop muted></video>
-      <p class="video-caption">
-        The video showcases a chef focusing on the cooking process in a modern kitchen. Behind the chef are professional kitchen equipment, with the surrounding environment clean and tranquil. At the beginning of the video, the chef is wearing a tall white chef's hat, a black chef's coat, and a white apron, standing in front of the central workbench in the kitchen. The camera focuses on the chef's dexterous hands as he uses a bright knife to chop various fresh ingredients on the workbench. These ingredients include red tomatoes, yellow peppers, green cucumbers, and a tall green cauliflower. The vegetables are brightly colored and neatly arranged. In the background, the metal hood and several modern stainless steel kitchen appliances can be seen. The kitchen is only occupied by the chef, who is working attentively. As the video progresses, the camera slowly pans to the right, and 
-        <span style="color: red;">a red apple gradually enters the frame, with many droplets of water, indicating its freshness.</span>
-      </p>
-      </div>
-    </div>
-    <div class="video-gallery mt-6">  
-      <div class="video-item">
-        <video src="videos/integral2_spots_apple_image_672x384x85@16_1739407014.mp4" autoplay loop muted></video>
-        <p class="video-caption">
-          The video showcases a chef's focused cooking process in a modern kitchen, with professional kitchen equipment visible behind him and the surrounding environment clean and tranquil. At the beginning of the video, the chef is wearing a tall white chef's hat, a black chef's coat, and a white apron, standing in front of the central kitchen counter. The camera focuses on the chef's dexterous hands as he uses a bright kitchen knife to chop various fresh ingredients on the worktable, which includes red tomatoes, yellow peppers, green cucumbers, and a tall green cauliflower. The vegetables are brightly colored and neatly arranged. In the background, the metal hood and several modern stainless steel kitchen appliances can be seen, with the chef working alone. As the video progresses, the camera slowly moves to the right, and 
-          <span style="color: red;">a red apple gradually enters the frame, showing slight signs of spoilage with brown spots.</span>
-        </p>
-      </div>
-      <div class="video-item">
-        <video src="videos/integral2_spots_banana_image_672x384x85@16_1739408817.mp4" autoplay loop muted></video>
-        <p class="video-caption">
-          The video showcases a chef focused on the process of cooking in a modern kitchen. Behind the chef are professional kitchen appliances, and the surrounding environment is clean and tranquil. At the beginning of the video, the chef is wearing a tall white chef's hat, a black chef's coat, and a white apron, standing in front of the central workbench in the kitchen. The camera focuses on the chef's dexterous hands as he uses a bright knife to chop various fresh ingredients on the workbench. These ingredients include red tomatoes, yellow peppers, green cucumbers, and a tall green cauliflower. The colors of the vegetables are vibrant and neatly arranged. In the background, one can see the kitchen's metal exhaust hood and several modern stainless steel kitchen appliances. The kitchen is occupied solely by the chef, who is working intently. As the video progresses, the camera slowly pans to the right, and 
-          <span style="color: red;">a few yellow bananas gradually enter the frame on the workbench. The bananas have minor signs of spoilage with a few black spots.</span>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="section" id="3DConsistency">
-  <div class="container">
-    <h2 class="section-title">3D Consistency</h2>
-    <div class="content">
-      <p>
-        Trained on the large-scale spatio-temporal dataset, <b>DropletVideo-10M</b>, DropletVideo exhibits remarkable 3D consistency. 
-        In the following example, the camera rotates around a
-          snowflake, maintaining stringent consistency for both the background and the snowflake from various
-          angles, while preserving the snowflake’s intricate details across multiple perspectives. In the bottom
-          example, the camera performs an arc shot, projecting the same object. Despite not being specifically
-          designed for arc shots, DropletVideo effectively maintains the insect’s 3D consistency over a broad
-          range of rotation angles, demonstrating robust spatial 3D continuity.
-      </p>
-    </div>
-
-    <div class="video-gallery mt-6">
-      <div class="video-item">
-        <video src="videos/3d_consistency_835_672x384x85@16.0_1739724748.mp4" autoplay loop muted></video>
-        <p class="video-caption">
-          A tranquil and beautiful snow scene, with a delicate glass snowflake placed in the center on soft snow. The background is a vast snowy plain dotted with pine trees, and the afterglow of the setting sun sprinkles a gentle glow. The video begins with the glass snowflake in the center of the frame, with sunlight passing through its transparent body, making it shine with colorful light. The snowflake's design is detailed, with clear edges and corners. As the camera slowly rotates around the snowflake, more background details emerge — snow-covered slopes, bending pine trees, and a warm orange sunset on the horizon. The final shot lingers on the glistening snowflake as it aligns with the distant glowing peaks.
-        </p>
-      </div>
-      <div class="video-item">
-        <video src="videos/ant.mp4" autoplay loop muted></video>
-        <p class="video-caption">
-          A rotating process of an orange 3D model, resembling a cartoon-style insect. The model spins in a black environment, revealing its features from every angle. Initially, it faces the viewer, showing two antennas, segmented body parts, and extended limbs. As the rotation progresses, the insect’s sides and back come into view, highlighting its structured abdomen and tail segmentation. The camera captures consistent geometry and spatial details across all views, ending with a return to the frontal perspective with accurate limb and antenna placement.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="Controllable">
-  <div class="container">
-    <h2 class="section-title">Controllable Motion Density</h2>
-
-    <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 2%; justify-content: space-between;">
-      <!-- Motion Intensity = 8 -->
-      <div class="video-item" style="width: 32%;">
-        <video src="videos/835_672x384x85@8.0_1739735378.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p class="video-caption has-text-centered"><b>Motion Intensity = 8</b></p>
-      </div>
-
-      <!-- Motion Intensity = 12 -->
-      <div class="video-item" style="width: 32%;">
-        <video src="videos/835_672x384x85@12.0_1739789908.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p class="video-caption has-text-centered"><b>Motion Intensity = 12</b></p>
-      </div>
-
-      <!-- Motion Intensity = 16 -->
-      <div class="video-item" style="width: 32%;">
-        <video src="videos/835_672x384x85@16.0_1739724748.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p class="video-caption has-text-centered"><b>Motion Intensity = 16</b></p>
-      </div>
-    </div>
-
-    <div class="content" style="line-height: 1.6; margin-top: 2rem;">
-      <p>
-        <b>DropletVideo</b> manages the pace of plot advancement and camera angle shifts by adjusting a motion control parameter. In the exemplified scenario, augmenting this parameter permits a video of equivalent length to incorporate a greater number of plot components. The video above showcases the generation results under varying motion control parameters using identical text-image input. Under the <b>M=8</b> setting, the camera's motion is significantly larger than that of <b>M=12</b> and <b>M=16</b>, resulting in broader perspective changes of the snowflake. As M increases, motion density decreases, confirming that a smaller M induces more intense camera variations. This demonstrates that DropletVideo can effectively modulate playback speed and scene richness while preserving semantic coherence and temporal integrity.
-      </p>
-    </div>
-  </div>
-</section>
-
-
-
-<section class="section" id="CameraMotion">
-  <div class="container">
-    <h2 class="section-title">Camera Motion</h2>
-      <!-- <h2 class="section-title">Controllable Motion Density</h2> -->
-    <div class="content has-text-justified" style="line-height: 1.6; margin-bottom: 1.5rem;">
-      <p>
-        DropletVideo demonstrates versatile camera motion generation capabilities including various fundamental movement types. The system produces cinema-standard motions
-        including right/left trucking, vertical pedestal movement, tilt adjustment, axial dollying, and composite pan-tilt operations.
-      </p>
-    </div>
-
-    <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1.5%; justify-content: space-between;">
-      <!-- 视频 1 -->
-      <div class="video-item" style="width: 32%; vertical-align: top;">
-        <video src="videos/camera_truck_left _803_672x384x85@16.0_1739741187.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-          <b style="color: blue;">Camera Truck left.</b>
-          The video showcases a white off-road vehicle parked by the riverside, creating an atmosphere of outdoor adventure and harmony with nature. In the initial frame, the front of the white off-road vehicle occupies the right side of the frame, with its body covered in noticeable mud stains, emphasizing its rugged journey. Across the river, a dense, deep-green forest stretches out, with sunlit leaves brimming with vitality. As the camera slowly moves left around the vehicle, the view gradually expands, revealing that the vehicle is parked on a textured riverbank. The camera continues its leftward movement, unveiling a broader view of the river, where scattered stones dot the water’s surface. Sunlight dances on the rippling water, while the forest on the opposite bank gradually comes into view. The entire scene appears bright and layered, enhancing the sense of depth and natural beauty.
-        </p>
-      </div>
-
-      <!-- 视频 2 -->
-      <div class="video-item" style="width: 32%; vertical-align: top;">
-        <video src="videos/camera_truck_right _769_672x384x85@16.0_1739731283.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-          <b style="color: blue;">Camera Truck right.</b>
-          A macro shot captures two dewy green leaves on a rainy early morning. In the opening frame, the sharp-edged leaf on the left has crystal-clear droplets trickling down its edge. The smooth-surfaced leaf on the right holds several still water droplets, subtly deformed by gravity. The background is softly blurred into a hazy green, with faint plant silhouettes visible. As the camera slowly pans to the right, soft light filters through the droplets, refracting into subtle colorful halos. The focus naturally shifts from the flowing droplets on the left leaf to the center of the right leaf, where several crystal-clear droplets are neatly aligned along the main vein. As the movement continues, the left leaf’s edge gradually fades out of the frame, while the right leaf’s intricate texture becomes more defined, revealing delicate reflections within the water droplets.
-        </p>
-      </div>
-
-      <!-- 视频 3 -->
-      <div class="video-item" style="width: 32%; vertical-align: top;">
-        <video src="videos/camera_pedestal_down_962_672x384x85@16.0_1739790350.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-          <b style="color: blue;">Camera Pedestal down.</b>
-          A green plant, at the beginning, the camera focuses on its unopened tender leaves. These tender leaves present a deep green color, with a smooth surface, and the leaves are tightly rolled together, forming a spiral shape. The background is blurred, making the plant the focus of the frame. As the video progresses, the camera slowly moves from top to bottom, gradually revealing more details of the plant, while the background blur effect is also changing. The camera continues to move from top to bottom, revealing more details of the plant.
-        </p>
-      </div>
-    </div>
-
-    <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1.5%; justify-content: space-between; margin-top: 2rem;">
-      <!-- 视频 4 -->
-      <div class="video-item" style="width: 32%; vertical-align: top;">
-        <video src="videos/camera_tilt_up _810_672x384x85@16.0_1739727237.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-          <b style="color: blue;">Camera Tilt up.</b>
-          The video showcases an elegant indoor spiral staircase. The initial frame is a static wide-angle shot, clearly presenting the staircase’s structure: vibrant red carpeting covers the steps, while both sides feature intricately designed wrought iron railings with graceful curves. The staircase spirals upward, extending beyond the frame, with a sturdy wooden support column prominently visible, emphasizing its structural stability. Next, the camera smoothly moves upward along the staircase, tilting slightly to the left, making the red-carpeted steps appear taller while also highlighting the delicate ironwork patterns on the railings. The camera then continues its upward movement, gradually revealing the top section of the staircase, where soft wall lighting casts a warm and inviting ambiance. Toward the end, the camera settles at a mid-level perspective, capturing a slightly protruding white decorative element on the upper wall and a dark hanging light fixture at the top. The video concludes with this harmonious composition, emphasizing the staircase’s refined craftsmanship and architectural beauty.
-        </p>
-      </div>
-
-      <!-- 视频 5 -->
-      <div class="video-item" style="width: 32%; vertical-align: top;">
-        <video src="videos/camera_dolly_in_302_672x384x85@16.0_1739737721.mp4" autoplay loop muted style="width: 100%;"></video>
-        <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-          <b style="color: blue;">Camera Dolly in.</b>
-          A cozy little house covered in snow, the camera begins from a distance, with the roof and ground covered in thick snow. In front of the house, there is a small balcony, and a thin layer of snow covers the railing of the balcony. As the camera advances, the striking red door at the house entrance becomes prominent, in front of the door is a snow-covered path leading to the steps. On both sides of the steps, there is a pine tree each, with some snow piled up on the trees. The camera continues to push forward, showing the windows of the house, with white curtains hanging on the windows, and snow accumulates on the windowsills. The camera continues to advance, giving a clearer view of the red front door.
-        </p>
-      </div>
-
-        <!-- 视频 6 -->
-        <div class="video-item" style="width: 32%; vertical-align: top;">
-          <video src="videos/camera_pan_right_and_tilt_up_767_672x384x85@16.0_1739723303.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: justify; text-justify: inter-word; hyphens: auto;" class="video-caption">
-            <b style="color: blue;">Camera Pan right and Tilt up.</b>
-            A panoramic view of a tranquil lake, with clear water, surrounded by lush mountains and blue skies with white clouds. In the opening shot, the lake occupies most of the picture, with the sunlight shining on the lake forming a faint golden halo. The towering mountains on the left and the reflections of the trees are clearly visible in the lake, with green vegetation at the foot of the mountains surrounding the lakeshore. The camera slowly moves to the right, gradually revealing the more expansive lake in the distance and the mountains surrounding the lake. These mountains, under the reflection of the sunlight, have increasingly clear outlines, with thick snow covering the peaks, majestic and imposing. Continuing to move to the right, the silhouette of the distant mountains begins to faintly fade out, and the blue lake water stretches towards the distance, connecting with the more expansive sky. The sky is azure, with a few white clouds floating, adding dynamism and vitality to the entire scene. Finally, the camera slowly tilts upwards, capturing the more expansive sky and the magnificent view of the lake.
-          </p>
-        </div>
-    </div>
-  </div>
-</section>
-
-
-
-<section class="section" id="Comparison">
-  <div class="container">
-    <h2 class="section-title">Comparative Examples</h2>
-    <div class="content">
-      <p>
-            To better demonstrate the cumulative spatiotemporal consistency of DropletVideo, we have selected several industry-recognized video generation models for comparison, including <b>Hailuo</b>,  <b>Kling v1.6</b>, <b>Gen-3</b>, 
-            <b>Vidu</b>, 
-            <b>Vivago</b>, 
-            <b>Qingying</b>, 
-            <b>CogVideoX-Fun</b>, and <b>WanX</b>.
-            Out of the compared models, only <b>CogVideoX-Fun</b> and <b>WanX</b> are open-source, similar to our approach, whereas the remaining models are closed-source.
-            We conducted comparisons using examples from various scenarios mentioned earlier, such as boat, kitchen, lake, snow, staircase, and sunset.
-          </p>
-    </div>
-
-
-        <!-- Example 1: Boat -->
-    <div class="example-block" id="ExampleBoat">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 1：Boat</b> 
-      </div>
-      <div class="content">
-        <p>
-          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
-          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
-          The camera slowly moves from right to left, gradually revealing more background details. 
-          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
-          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
-          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
-          contrasting sharply with the distant city buildings.
-        </p>
-      </div>
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 你的九个视频项放在这里，不需要动内容 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="videos/integral_spatio-temporal_consistency_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>DropletVideo (ours 水滴)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/kling/kling_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Kling v1.6 (可灵)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/vidu/vidu-boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vidu 2.0</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/阿里通义万象/阿里通义万象_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>WanX 2.1 (通义万相)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/hailuo/hailuo_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hailuo I2V-01-Live (海螺)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/智谱清影/智谱清影_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Qingying I2V 2.0 (清影)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/腾讯混元/hunyuan_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>HunyuanVideo (腾讯混元-Video)</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/vivago/vivago.ai_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vivago</b></p>
-        </div>
-
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/runwayml/runwayml_boat.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Gen3 Alpha Turbo</b></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 2: Kitchen -->
-    <div class="example-block" id="ExampleKitchen">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 2：Kitchen</b> 
-      </div>
-      <div class="content">
-        <p>
-          The video showcases a chef focusing on the process of cooking in a modern kitchen, with professional kitchen equipment behind him and a clean and tranquil surrounding environment.
-          At the start of the video, the chef is wearing a tall white chef's hat, a black chef's coat, and a white apron, standing in front of the central kitchen counter.
-          The camera focuses on the chef's skillful hands as he uses a bright knife to chop various fresh ingredients on the worktable.
-          These ingredients include red tomatoes, yellow peppers, green cucumbers, and a tall green cauliflower.
-          The vegetables are colorful and neatly arranged. In the background, you can see the metal exhaust hood and several modern stainless-steel kitchen appliances.
-          The kitchen is empty except for the chef, who is working attentively. As the video progresses, the camera slowly pans to the right, and 
-          <span style="color: red;">a red apple gradually enters the frame, which is very fresh.</span>
-        </p>
-      </div>
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 1 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="videos/dropletvideo_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>DropletVideo (ours 水滴)</b></p>
-        </div>
-
-        <!-- 2 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/kling/kling_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Kling v1.6 (可灵)</b></p>
-        </div>
-
-        <!-- 3 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/vidu/vidu-kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vidu 2.0</b></p>
-        </div>
-
-        <!-- 4 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/阿里通义万象/阿里通义万象_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>WanX 2.1 (通义万相)</b></p>
-        </div>
-
-        <!-- 5 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/hailuo/hailuo_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hailuo I2V-01-Live (海螺)</b></p>
-        </div>
-
-        <!-- 6 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/智谱清影/智谱清影_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Qingying I2V 2.0 (清影)</b></p>
-        </div>
-
-        <!-- 7 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/腾讯混元/hunyuan_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>HunyuanVideo (腾讯混元-Video 文生视频)</b></p>
-        </div>
-
-        <!-- 8 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/vivago/vivago.ai_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vivago</b></p>
-        </div>
-
-        <!-- 9 -->
-        <div class="video-item" style="width: 32%;">
-          <video src="close_source/runwayml/runwayml_kitchen.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Gen3 Alpha Turbo</b></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 3: Lake -->
-    <div class="example-block" id="ExampleLake">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 3：Lake</b> 
-      </div>
-      <div class="content">
-        <p>
-        A panoramic view of a tranquil lake, with clear water, surrounded by lush mountains and blue skies with white clouds. In the opening shot, the lake occupies most of the picture, with the sunlight shining on the lake forming a faint golden halo. The towering mountains on the left and the reflections of the trees are clearly visible in the lake, with green vegetation at the foot of the mountains surrounding the lakeshore. The camera slowly moves to the right, gradually revealing the more expansive lake in the distance and the mountains surrounding the lake. These mountains, under the reflection of the sunlight, have increasingly clear outlines, with thick snow covering the peaks, majestic and imposing. Continuing to move to the right, the silhouette of the distant mountains begins to faintly fade out, and the blue lake water stretches towards the distance, connecting with the more expansive sky. The sky is azure, with a few white clouds floating, adding dynamism and vitality to the entire scene. 
-        Finally,
-        <span style="color: red;">the camera slowly tilts upwards</span>, 
-        capturing the more expansive sky and the magnificent view of the lake.
-      </p>
-      </div>
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 1 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="videos/camera_pan_right_and_tilt_up_767_672x384x85@16.0_1739723303.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>DropletVideo(ours 水滴)</b></p>
-        </div>
-
-        <!-- 2 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/kling/kling_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Kling v1.6(可灵)</b></p>
-        </div>
-
-        <!-- 3 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vidu/vidu-lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vidu 2.0</b></p>
-        </div>
-
-        <!-- 4 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/阿里通义万象/阿里通义万象_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>WanX 2.1(通义万相)</b></p>
-        </div>
-
-        <!-- 5 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/hailuo/hailuo_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hailuo I2V-01-Live(海螺)</b></p>
-        </div>
-
-        <!-- 6 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/智谱清影/智谱清影_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Qingying I2V 2.0(清影)</b></p>
-        </div>
-
-        <!-- 7 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/腾讯混元/hunyuan_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>HunyuanVideo(腾讯混元-Video 文生视频)</b></p>
-        </div>
-
-        <!-- 8 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vivago/vivago.ai_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vivago</b></p>
-        </div>
-
-        <!-- 9 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/runwayml/runwayml_lake.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Gen3 Alpha Turbo</b></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 4: Snow -->
-    <div class="example-block" id="ExampleSnow">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 4：Snow</b> 
-      </div>
-      <div class="content">
-        <p>
-        A tranquil and beautiful snow scene, with a delicate glass snowflake placed in the center on soft snow. The background is a vast snowy plain dotted with pine trees, and the afterglow of the setting sun in the sky sprinkles a gentle glow. The video begins with the glass snowflake in the center of the frame, with sunlight passing through its transparent body, making it shine with colorful light. The snowflake's design is detailed, with clear edges and corners. The camera slowly rotates to the right around the snowflake, the distant pine trees are naturally distributed, appearing somewhat bent under the weight of the snow on the layered slopes. The camera continues to slowly rotate to the right and around the snowflake, another mountain view gradually comes into sight, with a few tall pine trees standing on the hilltop. On the horizon, the sun is about to set, and the remaining light turns the sky from light blue to warm orange.
-        <span style="color: red;">The camera continues to slowly rotate to the right around the snowflake, </span>
-        finally, the frame stays on the central glass snowflake, where the distant mountain top meets the horizon, and sunlight reflects on the snow.
-      </p>
-      </div>
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 1 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="videos/snow8_835_672x384x85@8.0_1739735378.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>DropletVideo(ours 水滴)</b></p>
-        </div>
-
-        <!-- 2 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/kling/kling_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Kling v1.6(可灵)</b></p>
-        </div>
-
-        <!-- 3 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vidu/vidu-snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vidu 2.0</b></p>
-        </div>
-
-        <!-- 4 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/阿里通义万象/阿里通义万象_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>WanX 2.1(通义万相)</b></p>
-        </div>
-
-        <!-- 5 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/hailuo/hailuo_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hailuo I2V-01-Live(海螺)</b></p>
-        </div>
-
-        <!-- 6 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/智谱清影/智谱清影_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Qingying I2V 2.0(清影)</b></p>
-        </div>
-
-        <!-- 7 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/腾讯混元/hunyuan_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>HunyuanVideo(腾讯混元-Video 文生视频)</b></p>
-        </div>
-
-        <!-- 8 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vivago/vivago.ai_ snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vivago</b></p>
-        </div>
-
-        <!-- 9 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/runwayml/runwayml_snow.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Gen3 Alpha Turbo</b></p>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Example 5: staircase -->
-    <div class="example-block" id="ExampleStaircase">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 5：Staircase</b> 
-      </div>
-      <div class="content">
-        <p>
-        The video showcases an elegant indoor spiral staircase. The initial frame is a static wide-angle shot, clearly presenting the staircase’s structure: vibrant red carpeting covers the steps, while both sides feature intricately designed wrought iron railings with graceful curves. The staircase spirals upward, extending beyond the frame, with a sturdy wooden support column prominently visible, emphasizing its structural stability. Next, the camera smoothly moves upward along the staircase, tilting slightly to the left, making the red-carpeted steps appear taller while also highlighting the delicate ironwork patterns on the railings. The camera then continues its upward movement, gradually revealing the top section of the staircase, where Toward the end, the camera settles at a mid-level perspective, capturing a slightly protruding white decorative element on the upper wall and a dark hanging light fixture at the top.
-        <span style="color: red;">soft wall lighting casts a warm and inviting ambiance.</span>
-        The video concludes with this harmonious composition, emphasizing the staircase’s refined craftsmanship and architectural beauty.
-      </p>
-      </div>
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 1 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="videos/camera_tilt_up _810_672x384x85@16.0_1739727237.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>DropletVideo(ours 水滴)</b></p>
-        </div>
-
-        <!-- 2 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/kling/kling_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Kling v1.6(可灵)</b></p>
-        </div>
-
-        <!-- 3 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vidu/vidu-staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vidu 2.0</b></p>
-        </div>
-
-        <!-- 4 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/阿里通义万象/阿里通义万象_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>WanX 2.1(通义万相)</b></p>
-        </div>
-
-        <!-- 5 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/hailuo/hailuo_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hailuo I2V-01-Live(海螺)</b></p>
-        </div>
-
-        <!-- 6 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/智谱清影/智谱清影_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Qingying I2V 2.0(清影)</b></p>
-        </div>
-
-        <!-- 7 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/腾讯混元/hunyuan_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>HunyuanVideo(腾讯混元-Video 文生视频)</b></p>
-        </div>
-
-        <!-- 8 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vivago/vivago.ai_ staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Vivago</b></p>
-        </div>
-
-        <!-- 9 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/runwayml/runwayml_staircase.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Gen3 Alpha Turbo</b></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Example 6: Sunset -->
-    <div class="example-block" id="ExampleSunset">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Example 6：sunset</b> 
-      </div>
-      <div class="content">
-        <p>
-          The video presents a serene and beautiful sunset scene, capturing a flock of birds soaring gracefully under the evening sun, creating a stunning visual. The sun is slowly descending towards the horizon, painting the entire sky in warm shades of orange and red. The clouds, illuminated by the sunset, glow in golden hues, adding to the magnificent scenery.
-          At the center of the frame stands a solitary tree, its branches appearing particularly distinct against the backdrop of the setting sun. As the camera moves slowly, a rolling grassland gradually emerges on the left side of the frame. The grassland, bathed in the sunset’s afterglow, displays varying shades of light and shadow, adding a rhythmic natural beauty to the scene.
-          As the camera continues to <span style="color: red;">pan left </span>, the flight path of the birds becomes increasingly visible, forming a bright arc under the glow of the sunset and enhancing the dynamic beauty of the composition. Further along,<span style="color: red;"> another tree</span> appears in the frame, its silhouette sharply defined under the warm hues of the setting sun, with crisp and well-defined lines.
-      </p>
-      </div>
-
-      <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between; margin-top: 1.5rem;">
-        <!-- 1 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="videos/integral_spatio-temporal_consistency_sun.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>DropletVideo(ours 水滴)</b>
-          </p>
-        </div>
-
-        <!-- 2 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/kling/kling_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Kling v1.6(可灵)</b>
-          </p>
-        </div>
-
-        <!-- 3 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vidu/vidu-sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Vidu 2.0</b>
-          </p>
-        </div>
-
-        <!-- 4 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/阿里通义万象/阿里通义万象_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>WanX 2.1(通义万相)</b>
-          </p>
-        </div>
-
-        <!-- 5 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/hailuo/hailuo_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Hailuo I2V-01-Live(海螺)</b>
-          </p>
-        </div>
-
-        <!-- 6 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/智谱清影/智谱清影_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Qingying I2V 2.0(清影)</b>
-          </p>
-        </div>
-
-        <!-- 7 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/腾讯混元/hunyuan_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>HunyuanVideo(腾讯混元-Video 文生视频)</b>
-          </p>
-        </div>
-
-        <!-- 8 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/vivago/vivago.ai_ sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Vivago</b>
-          </p>
-        </div>
-
-        <!-- 9 -->
-        <div class="video-item" style="width: 30%; vertical-align: top;">
-          <video src="close_source/runwayml/runwayml_sunset.mp4" autoplay loop muted style="width: 100%;"></video>
-          <p style="word-wrap: break-word; min-height: 50px; text-align: center;">
-            <b>Gen3 Alpha Turbo</b>
-          </p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-
-<section class="section" id="resources">
-  <div class="container">
-    <h2 class="section-title has-text-centered">BibTeX Citation</h2>
-    <pre style="text-align: left; background: #f7f7f7; padding: 1em; border-radius: 8px; overflow-x: auto;">
-@article{droplevideo2024,
-  title={DropletVideo: Integral Spatio-Temporal Consistent Video Generation},
-  author={Zhang, Runze and Du, Guoguang and Li, Xiaochuan and Jia, Qi and Jin, Liang and Liu, Lu and Wang, Jingjing and Xu, Cong and Guo, Zhenhua and Zhao, Yaqian and Gong, Xiaoli and Li, Rengang and Fan, Baoyu},
-  journal={arXiv preprint arXiv:2406.07846},
-  year={2024}
-}
-    </pre>
-  </div>
-</section>
-</main>
-
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p><strong>DropletVideo</strong> by <a href="https://github.com/IEIT-AGI">IEIT Lab</a>. Source on <a href="https://github.com/IEIT-AGI/DropletVideo">GitHub</a>.</p>
-    </div>
-  </footer>
+  <!-- JS 脚本 -->
+  <script>
+    function setRandomBackground() {
+      const bgUrl = `https://picsum.photos/1920/1080?random=${Math.random()}`;
+      document.getElementById('background').style.backgroundImage = `url('${bgUrl}')`;
+    }
+
+    function updateDate() {
+      const now = new Date();
+      const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      const lunar = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十'];
+
+      document.getElementById('date-top').innerText = `${now.getMonth() + 1}月${now.getDate()}日`;
+      document.getElementById('date-lunar').innerText = `${weekdays[now.getDay()]} · 农历七月${lunar[now.getDate() % 10]}`;
+      document.getElementById('date-number').innerText = now.getDate();
+    }
+
+    function refreshContent() {
+      setRandomBackground();
+      anime({ targets: '#quote-text', opacity: [0, 1], duration: 800, easing: 'easeInOutQuad' });
+    }
+
+    updateDate();
+    setRandomBackground();
+  </script>
 </body>
-
 </html>
