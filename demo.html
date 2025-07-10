@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Droplet 欢迎页</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+
+    .bg-mask {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(4px);
+    }
+
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .timeline-dot {
+      width: 12px;
+      height: 12px;
+      background: white;
+      border-radius: 9999px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body class="text-white">
+  <div id="background" class="fixed inset-0 bg-cover bg-center z-0 transition-all duration-1000"></div>
+  <div class="fixed inset-0 bg-mask z-10"></div>
+
+  <main class="relative z-20 min-h-screen flex flex-col items-center pt-10 px-4">
+
+    <!-- 日期与名言 -->
+    <div class="text-center max-w-2xl mb-10">
+      <div class="text-2xl mb-2" id="date-top"></div>
+      <div class="text-base mb-4" id="date-lunar"></div>
+      <div class="text-6xl font-bold mb-8" id="date-number"></div>
+
+      <div class="text-xl leading-relaxed">"what i cannot create i do not understand"</div>
+      <div class="mt-2 text-base text-white/80">Richard Feynman</div>
+    </div>
+
+    <div class="flex justify-center">
+      <div class="relative timeline-line w-full max-w-md flex flex-col items-start gap-6">
+        <!-- 项目节点 -->
+        <div class="flex items-center gap-3">
+          <!-- 时间节点（左边） -->
+          <div class="absolute left-[-70px] text-lg text-white">2025.03</div>
+          
+          <div class="timeline-dot"></div>
+          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
+            <span class="text-lg font-medium">Droplet-Video</span>
+            <a href="index.html"
+              class="text-sm text-white px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-full transition">Enter</a>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- 时间节点（左边） -->
+          <div class="absolute left-[-70px] text-lg text-white">2024.08</div>
+          
+          <div class="timeline-dot"></div>
+          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
+            <span class="text-lg font-medium">Droplet-3D</span>
+            <a href="./droplet-3d/index.html"
+              class="text-sm text-white px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full transition">Enter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 切换背景 -->
+    <button onclick="refreshContent()" class="mt-8 px-4 py-2 border border-white rounded-full hover:bg-white hover:text-black transition">
+      切换背景
+    </button>
+
+  </main>
+
+  <!-- 音乐播放器 -->
+  <div class="fixed bottom-4 left-4 z-30">
+    <details>
+      <summary class="cursor-pointer text-white">🎵 Music</summary>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX3Ogo9pFvBkY" width="300" height="80"
+        frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"></iframe>
+    </details>
+  </div>
+
+  <!-- JS 脚本 -->
+  <script>
+    function setRandomBackground() {
+      const bgUrl = `https://picsum.photos/1920/1080?random=${Math.random()}`;
+      document.getElementById('background').style.backgroundImage = `url('${bgUrl}')`;
+    }
+
+    function updateDate() {
+      const now = new Date();
+      const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      const lunar = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十'];
+
+      document.getElementById('date-top').innerText = `${now.getMonth() + 1}月${now.getDate()}日`;
+      document.getElementById('date-lunar').innerText = `${weekdays[now.getDay()]} · 农历七月${lunar[now.getDate() % 10]}`;
+      document.getElementById('date-number').innerText = now.getDate();
+    }
+
+    function refreshContent() {
+      setRandomBackground();
+      anime({ targets: '#quote-text', opacity: [0, 1], duration: 800, easing: 'easeInOutQuad' });
+    }
+
+    updateDate();
+    setRandomBackground();
+  </script>
+</body>
+</html>
