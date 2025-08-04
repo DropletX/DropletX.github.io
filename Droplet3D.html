@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droplet3D</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      background: #f4f7fa;
+    }
+    .hero {
+      background: #e6f2ff;
+      color: white;
+      padding-bottom: 3rem;
+    }
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+      justify-items: center;
+    }
+    .video-item {
+      width: 100%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      width: 60px;
+      height: 4px;
+      background: #00d1b2;
+      display: block;
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+    .video-item video {
+      width: 100%;
+      max-width: 100%; /* 避免超出格子 */
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .video-caption {
+      font-size: 0.95rem;
+      text-align: justify;
+      padding: 0.5rem 0;
+    }
+    .buttons.is-centered {
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    /* 修改作者字体、链接样式 */
+    .hero .author-block a {
+      font-size: 1.1rem;
+      font-family: 'Noto Sans', sans-serif;
+      color: 	#4285F4;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .hero .author-block a:hover {
+      text-decoration: underline;
+      text-decoration-color: 	#4285F4;
+    }
+
+    /* 修改右上角标记颜色为黑色 */
+    .hero sup {
+      color: black;
+      font-size: 0.8em;
+    }
+    /* 标题逗号为黑色 */
+    .hero .comma {
+      color: black;
+      margin-right: 0.25em;
+    }
+    /* 滚动框 */
+    .video-caption {
+      font-size: 0.95rem;
+      text-align: justify;
+      padding: 0.5rem 0;
+      max-height: 220px;           /* 固定最大高度 */
+      overflow-y: auto;            /* 添加垂直滚动 */
+      line-height: 1.6;
+      background: #f4f7fa;         /* 可选：背景分隔更清晰 */
+      padding-right: 8px;          /* 为滚动条留点空间 */
+      border-radius: 6px;
+    }
+    .navbar-item {
+    color: black !important;  /* 设置为黑色，并用 !important 覆盖 Bulma 默认颜色 */
+  }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar is-fixed-top">
+    <div class="navbar-menu is-active">
+      <div class="navbar-start ml-5">
+        <a class="navbar-item" href="#abstract">Abstract</a>
+        <a class="navbar-item" href="#dataset">Dataset</a>
+        <a class="navbar-item" href="#method">Method</a>
+        <a class="navbar-item" href="#Integral">Integral</a>
+        <a class="navbar-item" href="#3DConsistency">3D</a>
+        <a class="navbar-item" href="#Controllable">Motion Density</a>
+        <a class="navbar-item" href="#CameraMotion">Camera Motion</a>
+        <a class="navbar-item" href="#Comparison">Comparison</a>  
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero is-fullheight is-bold">
+    <div class="hero-body has-text-centered">
+      <div class="container">
+        <h1 class="title is-2 has-text-weight-bold mb-5" style="margin-top: 2rem;">
+          Droplet3D: World Insights Captured from Video Facilitates 3D Assets Generation
+        </h1>
+      <div class="is-size-6 has-text-centered mb-2" style="line-height: 1.8;">
+        <div class="author-block">
+          <a href="#">Runze Zhang</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Guoguang Du</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Xiaochuan Li</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Qi Jia</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Liang Jin</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Lu Liu</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Jingjing Wang</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Cong Xu</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Zhenhua Guo</a><sup>1</sup><span class="comma">,</span>
+        </div>
+        <div class="author-block">
+          <a href="#">Yaqian Zhao</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Xiaoli Gong</a><sup>2</sup>
+          <a href="#">Rengang Li</a><sup>1,3†</sup><span class="comma">,</span>
+          <a href="#">Baoyu Fan</a><sup>1,2†</sup>
+        </div>
+      </div>
+
+      <!-- 作者单位，黑色字体 -->
+      <div class="is-size-6 mb-5 has-text-black">
+        <sup>1</sup>IEIT, 
+        <sup>2</sup>Nankai University, 
+        <sup>3</sup>Tsinghua University<br>
+        <sup>*</sup>Equal Contribution, <sup>†</sup>Corresponding Authors
+      </div>
+        <video autoplay muted loop playsinline style="max-width: 720px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); margin-top: 1rem;">
+          <source src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_03蓝毛.mp4" type="video/mp4">
+        </video>
+        <video autoplay muted loop playsinline style="max-width: 720px; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); margin-top: 1rem;">
+          <source src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_06古堡.mp4" type="video/mp4">
+        </video>
+      
+        <div class="columns is-centered mt-4 is-variable is-1">
+          <!-- Paper -->
+          <div class="column is-narrow has-text-centered">
+            <div class="publication-links">
+              <a href="https://huggingface.co/papers/2503.06053" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                <span>Paper (ArXiv)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Code -->
+          <div class="column is-narrow has-text-centered">
+            <div class="publication-links">
+              <a href="https://github.com/IEIT-AGI/DropletVideo" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code (Github)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Dataset 10M -->
+          <div class="column is-narrow has-text-centered">
+            <div class="publication-links">
+              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-10M" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
+                </span>
+                <span>Datasets (10M)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Dataset 1M -->
+          <div class="column is-narrow has-text-centered">
+            <div class="publication-links">
+              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
+                </span>
+                <span>Datasets (1M) | Most-Qualified</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      <div align="center" style="background: #fff3d4; padding: 12px; border-radius: 8px; margin: 16px 0; color: black;">
+        🔍 <strong>Dataset Note:</strong> 
+        <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" target="_blank"><em>DropletVideo-1M</em></a> 
+         is the premium subset of DropletVideo-10M, filtered with aesthetic score > 4.51 and image quality score > 7.51.
+      </div>
+        
+        <div class="buttons is-centered">
+          <a class="button is-primary is-rounded is-medium" href="#abstract"><i class="fas fa-angle-down mr-2"></i> Explore</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 原始内容插入起点 -->
+  <main>
+  <section class="section" id="abstract" >
+    <div class="container">
+      <h2 class="section-title">Abstract</h2>
+      <div class="columns is-vcentered">
+        <figure>
+      <img src="droplet3d_source/images/abstract_fig_s0_title.jpeg" alt="Droplet3d abstract">
+      </figure>
+      </div>
+      
+      <!-- <div class="columns is-vcentered">
+        <div class="column is-half">
+          <img src="droplet3d_source/images/abstract_fig_s0_title.jpeg" alt="Integral Spatio-temporal Consistency">
+        </div>
+        <div class="column is-half">
+          <video src="videos/figure_gan.mp4" autoplay loop muted></video>
+          <p class="has-text-centered mt-2"><b>Examples of spatio-temporal consistency</b></p>
+        </div>
+      </div> -->
+      <div class="content mt-4">
+        <p>
+          Scaling laws have validated the success and promise of large-data-trained models in creative generation across text, image, and video domains. However, this paradigm faces data scarcity in the 3D domain, as there is far less of it available on the internet compared to the aforementioned modalities. Fortunately, there exist adequate videos which inherently contain rich 3D-consistent information, offering an alternative supervisory signal to mitigate the generalization bottleneck caused by limited native 3D data. This paper explores how to apply the video modality in 3D asset generation, spanning datasets to models. We introduce <b>Droplet3D-4M</b>, the first large-scale video dataset with multi-view-consistent annotations, and train <b>Droplet3D</b>, a multi-view generative model supporting both image and dense text inputs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="dataset">
+    <div class="container">
+      <h2 class="section-title">Droplet3D-4M Dataset</h2>
+      <div class="columns is-vcentered">
+        <figure>
+          <img src="droplet3d_source/images/droplet3d_4m_fig_s3_pipeline.jpeg" alt="The pipeline we proposed to curate the Droplet3D-4M dataset">
+        </figure>
+
+      </div>
+      <div class="content">
+      <p>
+        the constructed <b>Droplet3D-4M</b> dataset comprises a meticulously curated collection of 4 million fully-covered multi-view video sequences, encompassing approximately 900 million individual frames with a total runtime exceeding 8,000 hours.
+        Its unprocessed raw 3D models were collected from Objaverse-XL, comprising 6.3 million models sourced from GitHub and Sketchfab.
+        This comprehensive visual dataset has been publicly released with the aim of advancing research in spherical vision systems and multi-view analysis.
+        It should be noted that due to the origin of some source models being sampled from the internet, the dataset is published under the CC BY-NC-SA 4.0 license.
+        Researchers are advised that although the material is freely available for academic research, all content within it remains subject to the original distribution permissions, restricting its use to non-commercial purposes only.
+      </p>
+      </div>
+      
+      <!-- <div class="columns"> -->
+        <!-- 左边视频 -->
+        <!-- <div class="column is-half">
+          <video src="videos/数据集-Panda-70M.mp4" autoplay loop muted></video>
+          <p class="video-caption">
+            <b>Panda-70M Caption:</b> A person is holding a long haired dachshund in their arms.
+          </p>
+        </div> -->
+
+        <!-- 右边视频 -->
+        <!-- <div class="column is-half">
+          <video src="videos/数据集-_HaNdn0-JQU--053270_054160.mp4" autoplay loop muted></video>
+          <p class="video-caption">
+            <b>DropletVideo-10M Caption:</b> This video captures a scene of a man walking on a city street at night. The lighting is dim, but the background streets and buildings remain clearly visible.
+            <br>
+            The video begins on a nighttime city street, where a man wearing a T-shirt with a colorful pattern and a clip-on microphone appears in front of the camera. His face is blurred. In the background, there are shop windows displaying colorful merchandise, and across the street, there is a roadway with vehicles moving slowly. Streetlights and headlights provide faint illumination to the street.
+            <br>
+            <span style="color: red;">As the man walks while facing the camera</span>, more details of the buildings in the background become visible. A blue sedan passes by on the street, and the shadows of the vehicles flicker on the ground under the lights.
+            <br>
+            Then, <span style="color: red;">the camera pans to the right</span>, revealing a new scene. Another man wearing a black T-shirt enters the frame, walking near the entrance of a store that emits a bright white light from above. At the same time, pedestrians on both sides of the street come into view, and their shadows on the ground become more distinct.
+            <br>
+            <span style="color: red;">As the scene transitions</span>, the camera captures a brightly lit urban district with heavy traffic. A blue SUV is seen queued behind a silver car as vehicles move forward slowly. At this moment, the main subject is shown from behind, walking along a crowded sidewalk. The background consists of trees and building facades adorned with green plants inside the walls.
+            <br>
+            Following the pedestrian’s movement, <span style="color: red;">the camera continues along the street</span>, where traffic remains steady. There are many parked cars along the roadside, including a black sedan.
+            <br>
+            Towards the end of the video, the man continues walking along the same sidewalk. The background features a row of shops, with customers lingering outside and chatting. The surroundings remain lively with the bustling city atmosphere under the night sky.
+            <br>
+            Finally, <span style="color: red;">the camera pulls back towards the side of the street</span>, showing the opposite side still busy with traffic and the flashing city lights.
+          </p>
+        </div> -->
+      <!-- </div> -->
+    </div>
+
+
+  </section>
+
+<section class="section" id="method">
+  <div class="container">
+    <h2 class="section-title">The Droplet3D Model</h2>
+    <figure>
+      <img src="droplet3d_source/images/droplet3d_model.bmp" alt="Droplet3D Architecture">
+        <!-- <figcaption style="text-align: center; font-size: 0.88em; color: #555; margin-top: 4px;">
+          Overview of the Droplet3D Framework. To enhance performance, Droplet3D supports a text rewriting module, an image canonical view alignment, and the generation of surround videos. The created multi-view content can be integrated into reconstruction modules for various 3D modalities, thereby generating 3D assets for diverse purposes.
+        </figcaption> -->
+    </figure>
+
+    <div class="content">
+      <!-- <p>
+        <b>1. Video Processing Pipeline:</b><br>
+        The video is processed by the 3D causal Variational Autoencoder (VAE)
+        following adaptive equalization sampling, which is steered by the motion
+        intensity <i>M</i>. The video feature <i>x<sub>v</sub></i> is then input into the
+        Modality-Expert Transformer, depicted on the right side of the figure,
+        to facilitate video generation in conjunction with the text encoding
+        <i>x<sub>t</sub></i>, the combined encoding <i>x<sub>T&amp;M</sub></i> of the temporal <i>T</i> and
+        the motion intensity <i>M</i>.
+      </p>
+      <p>
+        <b>2. Diagram Illustration:</b><br>
+        The upper left part illustrates the contrast between (a)
+        the traditional sampling approach and (b) DropletVideo's adaptive equalization sampling.
+      </p>
+      <p>
+        <b>3. Sampling Strategy Comparison:</b><br>
+        Traditional methods involve random segment interception followed by
+        fixed-frame-rate sampling of the intercepted segments, whereas
+        <strong>DropletVideo</strong> employs adaptive frame rate sampling across
+        the entire video segments, guided by <i>M</i>.
+      </p> -->
+
+      Based on the rendered videos and corresponding multi-view level captions from Droplet3D-4M, we trained a video generation model, termed Droplet3D, specifically designed for generating 3D dense surround-view images. 
+      The pipeline of Droplet3D in the 3D generation process is illustrated in Fig.
+      For any given text or image prompt, Droplet3D first aligns it with the model. 
+      Initially, we expand the user's input requirements based on a lightweight large language model, rewriting them into dense textual descriptions that follow the same distribution as the multi-view level captions in the Droplet3D-4M dataset. 
+      Simultaneously, to accommodate inputs from arbitrary viewpoints, we designed a anonical viewpoint alignment module to adjust the perspective of the input images. 
+      For the backbone network, we introduce a 3D causal VAE to achieve implicit space encoding and decoding of the video, and employ a multi-modal diffusion transformer to facilitate the fusion of text and video modality features while constraining their independence.
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="3DConsistency">
+  <div class="container">
+    <h2 class="section-title">3D Lifting from Stylized Inputs</h2>
+    <div class="content">
+      <p>
+        <b>Droplet3D</b> exhibits a relatively robust capability in lifting 2D content into 3D. 
+        Although the training data for Droplet3D-4M is entirely based on renderings from Objaverse-XL, which consists solely of object-level 3D files, Droplet3D still demonstrates a certain degree of robustness, particularly when the input images differ significantly from the training data distribution, such as stylized AIGC images like landscapes or sketches. 
+        We believe this capability may stem from its prior video training, which has endowed it with extensive general knowledge, making its 3D generation more versatile. 
+        This observation is particularly interesting, as it validates, to some extent, our hypothesis that video can facilitate 3D generation. 
+      </p>
+    </div>
+    
+    <!-- Example 1: Landscape paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Landscape paintings</b> 
+      </div>
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_001_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_002_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_003_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_004_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Example 2: comics paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Comics paintings</b> 
+      </div>
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_001_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_002_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_003_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_004_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Example 3: sketch paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Sketch paintings</b> 
+      </div>
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_003_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_025_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_037_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/补充/sketch_014_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="CameraMotion">
+  <div class="container">
+    <h2 class="section-title">Creativity Based on AIGC Image and Language Descriptions</h2>
+      <!-- <h2 class="section-title">Controllable Motion Density</h2> -->
+    <div class="content has-text-justified" style="line-height: 1.6; margin-bottom: 1.5rem;">
+      <p>
+        Current mainstream 3D generation models typically only support image or text input. However, Droplet3D conditions on both an initial image and dense text, enabling it to support more targeted creative design, which is quite interesting. This is reflected in the variations of the generated assets when we employ AIGC images along with different textual descriptions.
+      </p>
+    </div>
+
+     <!-- Example 1: 金钱怪 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 1</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/01金币怪-dgg/01金币怪-dgg_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This character is an anthropomorphic onion figure. The main body is bright yellow, with a round cap on top. The body is segmented, with a smooth and plump texture, and features vertical stripes. The character has a wide, open-mouthed smile, white eyes with black pupils, and the facial features are concentrated at the front. It has short, stubby arms and legs, and wears brown round-toed boots. The overall proportions are exaggerated and the style is consistent, exhibiting distinct characteristics of a cartoon toy.
+            <br>
+            The video begins with a front view of the onion character. The camera then slowly moves around to the side, revealing the round outline of the cap and the parallel contour lines of the onion body’s texture. As the camera gradually shifts to the back, the surface texture of the onion is shown to be symmetrical and continuous, and the edge of the cap is even and smooth. The camera continues to move to the other side, eventually returning to the front view, where the round cap on top and the shiny boots below visually echo each other, further highlighting the character’s cute, cartoonish style. After a full rotation, the video ends, leaving a deep impression of the character’s overall roundness and bright colors.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/01金币怪-dgg/01金币怪-dgg_1发条.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This character is an anthropomorphic onion figure. The main body is bright yellow, with a round cap on top. The body is segmented, with a smooth and plump texture, and features vertical stripes. The character has a wide, open-mouthed smile, white eyes with black pupils, and the facial features are concentrated at the front. It has short, stubby arms and legs, and wears brown round-toed boots. The overall proportions are exaggerated and the style is consistent, exhibiting distinct characteristics of a cartoon toy.
+            <br>
+            The camera starts from the front, where the character’s wide open-mouthed smile and bright yellow vertical stripes are clearly visible, and the round cap on top appears smooth and full. As the camera rotates to the back, a beautiful and delicate wind-up key is revealed at the center of the back. The key is green, with four metal gears connected at the end of its arms, and the fine engravings on the gears are clearly defined. The side view shows the thickness of the wind-up key and the sense of rotation of the gears. Finally, the camera returns to the front, highlighting the strong mechanical feel.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/01金币怪-dgg/01金币怪-dgg_2水晶.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This character is an anthropomorphic onion figure. The main body is bright yellow, with a round cap on top. The body is segmented, with a smooth and plump texture, and features vertical stripes. The character has a wide, open-mouthed smile, white eyes with black pupils, and the facial features are concentrated at the front. It has short, stubby arms and legs, and wears brown round-toed boots. The overall proportions are exaggerated and the style is consistent, exhibiting distinct characteristics of a cartoon toy.
+            <br>
+            The camera starts from the front, gradually revealing the character's round cap and the smooth, segmented texture of its body, while the exaggerated and lively smile is clearly shown. As the camera moves to the back, a blue glowing crystal orb is embedded in the center of the back, with light and shadows flowing inside the sphere. From the side, the three-dimensionality of the crystal is displayed. Finally, the camera returns to the front, presenting a unified and complete overall style.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/01金币怪-dgg/01金币怪-dgg_3二维码.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This character is an anthropomorphic onion figure. The main body is bright yellow, with a round cap on top. The body is segmented, with a smooth and plump texture, and features vertical stripes. The character has a wide, open-mouthed smile, white eyes with black pupils, and the facial features are concentrated at the front. It has short, stubby arms and legs, and wears brown round-toed boots. The overall proportions are exaggerated and the style is consistent, exhibiting distinct characteristics of a cartoon toy.
+            <br>
+            The camera starts from the front and slowly rotates to the right, allowing the viewer to observe the curvature of the cap and the changes in body proportions from a side angle. As the camera moves to the back, a prominent black-and-white QR code sticker is revealed on the character’s back, occupying more than two-thirds of the rear surface. The QR code is a common square shape, with a light gray border to ensure clear visibility against the yellow background. The sticker is slightly raised, fitting well with the curve of the back, and serves as an independent visual focal point. The camera continues rotating to the left, with the corners of the QR code still clearly visible from the side, before smoothly returning to the front view.
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+  
+     <!-- Example 2: 红阁楼 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 2</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/02红楼阁-lxc/02红楼阁-lxc_0原生_9.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image presents a fantastical scene rich in Eastern ambience. The main subject is a traditional multi-story pagoda, perched atop a steep rocky island peak. The pagoda has a complex structure, dominated by dark red and brown tones. Its roofs curve upwards and ascend in tiers, crowned with a golden spire, which gives it a majestic and mysterious appearance. Mist and clouds swirl around, creating a visual illusion of floating in mid-air, making the pagoda seem as if it is suspended above the sky. The island is covered with vibrant red-leaved trees, which complement the red sky in the background, creating an atmosphere that is both warm and solemn.
+            <br>
+            As the camera circles around the pagoda, the various angles of the structure and changes in the environment can be observed. The front view displays the pagoda's complete edges and eaves, with strong colors making it stand out even more against the red background. From the side, the layered structure of the pagoda is evident. Circling to the back, the suspended pillars between the pagoda's sections appear like paths leading to unsolved mysteries, and the red trees are even denser from this angle. Finally, the camera returns to its initial position, once again revealing the full view of the pagoda and the stunning visual impact brought by the red sky.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/02红楼阁-lxc/02红楼阁-lxc_1城墙.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image presents a fantastical scene rich in Eastern ambience. The main subject is a traditional multi-story pagoda, perched atop a steep rocky island peak. The pagoda has a complex structure, dominated by dark red and brown tones. Its roofs curve upwards and ascend in tiers, crowned with a golden spire, which gives it a majestic and mysterious appearance. Mist and clouds swirl around, creating a visual illusion of floating in mid-air, making the pagoda seem as if it is suspended above the sky. The island is covered with vibrant red-leaved trees, which complement the red sky in the background, creating an atmosphere that is both warm and solemn.
+            <br>
+            As the camera circles around the pagoda, the various angles of the structure and changes in its surroundings can be observed. The front view displays the full edges and eaves of the pagoda; from the side, the layered structure of the pagoda becomes apparent, and the enclosing wall along the edge of the cliff behind the pagoda gradually comes into view. Circling to the back, the suspended pillars between sections of the pagoda appear like paths leading to unsolved mysteries, and the front of the city wall at the cliff's edge can be seen. Finally, the camera returns to its original position, once again revealing the full view of the pagoda and the stunning visual impact brought by the red sky.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/02红楼阁-lxc/02红楼阁-lxc_2更多红木.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image presents a fantastical scene rich in Eastern ambience. The main subject is a traditional multi-story pagoda, perched atop a steep rocky island peak. The pagoda has a complex structure, dominated by dark red and brown tones. Its roofs curve upwards and ascend in tiers, crowned with a golden spire, which gives it a majestic and mysterious appearance. Mist and clouds swirl around, creating a visual illusion of floating in mid-air, making the pagoda seem as if it is suspended above the sky. The island is covered with vibrant red-leaved trees, which complement the red sky in the background, creating an atmosphere that is both warm and solemn.
+            <br>
+            As the camera circles around the pagoda, various angles of the structure and changes in its surroundings can be observed. The front view displays the complete edges and eaves of the pagoda, with the strong color tones making it stand out even more against the red background. From the side, the layered structure of the pagoda becomes apparent. Circling to the back, the suspended pillars between the sections of the pagoda appear like paths leading to unsolved mysteries, and the red trees are especially dense on the backside. Finally, the camera returns to its original position, once again revealing the full view of the pagoda and the stunning visual impact of the red sky.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/02红楼阁-lxc/02红楼阁-lxc_3小型亭子.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image presents a fantastical scene rich in Eastern ambience. The main subject is a traditional multi-story pagoda, perched atop a steep rocky island peak. The pagoda has a complex structure, dominated by dark red and brown tones. Its roofs curve upwards and ascend in tiers, crowned with a golden spire, which gives it a majestic and mysterious appearance. Mist and clouds swirl around, creating a visual illusion of floating in mid-air, making the pagoda seem as if it is suspended above the sky. The island is covered with vibrant red-leaved trees, which complement the red sky in the background, creating an atmosphere that is both warm and solemn.
+            <br>
+            As the camera circles around the pagoda, various angles of the structure and changes in its surroundings can be observed. The front view displays the complete edges and eaves of the pagoda, with the bold color tones making it stand out even more against the red background. From the side, the layered structure of the pagoda becomes apparent, and the pavilion behind the pagoda gradually comes into view. Circling to the back, the suspended pillars between the sections of the pagoda look like paths leading to unsolved mysteries, and the front of the small pavilion can be seen. Finally, the camera returns to its original position, once again revealing the full view of the pagoda and the stunning visual impact of the red sky.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Example 3: 蓝毛 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 3</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing straight with her head held high, her head rounded and her nose slightly upturned. The joints connecting her arm and leg armor are silver, framed by red protective gear, and the center of the shoulder armor features a silver circle. As the rotation continues, the back armor can be observed, revealing the complete red back armor. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_1机甲背包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing straight with her head held high, her head rounded and her nose slightly upturned. From the side, the heavy red metal backpack is visible. As the rotation continues, the back armor can be observed, with the backpack centered on her back. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_2电脑操控屏.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing upright with her head held high, her head rounded and her nose slightly upturned. From the side, a miniature control screen can be seen closely attached to her back. As the rotation continues, the back armor comes into view, with the miniature control screen positioned in the center. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_3太阳能充电板.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing upright with her head held high, her head rounded and her nose slightly upturned. From the side, a red booster can be seen closely attached to her back. As the rotation continues, the back armor comes into view, with a solar power panel positioned in the center. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_4长发.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing upright with her head held high, her head rounded and her nose slightly upturned. From the side, a blue braid can be seen hanging down. As the rotation continues, the back armor comes into view, with the blue braid positioned in the center. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/03蓝毛-lxc/03蓝毛-lxc_5精灵翅膀.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+            <br>
+            The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing upright with her head held high, her head rounded and her nose slightly upturned. From the side, delicate fairy wings can be seen. As the rotation continues, the back armor comes into view. Finally, the view continues to rotate until a full circle is completed.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Example 4: 暖暖 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 4</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/04暖暖-lxc/04暖暖-lxc_0原生（披肩发）.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image depicts a cute little girl in a minimalist style, standing upright and giving off a sense of warmth and tranquility. She has smooth, light blonde hair that falls just below her shoulders in soft waves. A pink flower adorns her hair, adding a touch of gentleness and innocence. The girl has delicate features and a sweet expression. She is wearing a loose, light beige long-sleeve sweater, with a slightly longer hem for a casual and natural look. She holds a brown book in both hands, with simple letters on the cover. She is wearing light-colored split-toe cotton socks and no shoes.
+            <br>
+            The viewpoint starts from the front and then rotates; throughout the process, the girl's posture and smile remain unchanged. As the camera moves to the side, the softness and natural flow of her hair become more apparent, showing its gentle waves and length just past her shoulders. Rotating to the back, the length of her hair at the back matches what is seen from the side. When the camera returns to the front, the letters on the cover of the book in the girl's hands are clearly visible. The entire video presents a multi-angle close-up of this lovely girl, always maintaining her pure and warm aura.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/04暖暖-lxc/04暖暖-lxc_1长发及腰.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image depicts a cute little girl in a minimalist style, standing upright and giving off a sense of warmth and tranquility. She has smooth, light blonde hair that falls just below her shoulders in soft waves. A pink flower adorns her hair, adding a touch of gentleness and innocence. The girl has delicate features and a sweet expression. She is wearing a loose, light beige long-sleeve sweater, with a slightly longer hem for a casual and natural look. She holds a brown book in both hands, with simple letters on the cover. She is wearing light-colored split-toe cotton socks and no shoes.
+            <br>
+            The viewpoint starts from the front and rotates; throughout the process, the girl’s posture and smile remain unchanged. As the camera moves to the side, the softness and natural flow of her hair become more apparent, showing gentle waves, with the hair at the back reaching down to her waist. Rotating to the back, the length of her hair matches what was seen from the side. When the camera returns to the front, the letters on the cover of the book in the girl's hands are clearly visible. The entire video presents a multi-angle close-up of this adorable girl, always maintaining her pure and warm aura.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/04暖暖-lxc/04暖暖-lxc_2头发收起.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The image depicts a cute little girl in a minimalist style, standing upright and giving off a sense of warmth and tranquility. She has smooth, light blonde hair that falls just below her shoulders in soft waves. A pink flower adorns her hair, adding a touch of gentleness and innocence. The girl has delicate features and a sweet expression. She is wearing a loose, light beige long-sleeve sweater, with a slightly longer hem for a casual and natural look. She holds a brown book in both hands, with simple letters on the cover. She is wearing light-colored split-toe cotton socks and no shoes.
+            <br>
+            The viewpoint starts from the front and rotates; throughout the process, the girl’s posture and smile remain unchanged. As the camera moves to the side, the softness and natural flow of her hair become more apparent, with gentle waves, and the hair at the back just reaching past her shoulders, with the hair at the back of her head tucked into her clothes. Rotating to the back, the length of the girl’s hair matches what is seen from the side. When the camera returns to the front, the letters on the cover of the book in the girl's hands are clearly visible. The entire video presents multi-angle close-ups of this adorable girl, always maintaining her pure and warm aura.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Example 5: 熊猫-->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 5</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/05熊猫-jq/05熊猫-jq_0原生（太空背包）.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon panda astronaut with a round face and classic black and white color scheme, wearing a finely crafted white spacesuit with a blue control panel and wiring on the chest, red badge decorations on the shoulders, black gloves, and white boots, continuing the classic color scheme. The overall design is casual and friendly, showcasing a space exploration image.
+            <br>
+            The video begins with a eye-level perspective, first showing the panda astronaut's front view, from which the smile and the front details of the spacesuit can be observed. As the video continues to rotate, the side view is revealed, making the panda’s round ears and the spacesuit’s backpack structure more prominent. As the panda continues to turn on the screen, the back view gradually appears, showing the equipment and vest design on the back. Finally, the panda completes a 360-degree rotation, giving the audience a full-body view before the video ends. Each angle showcases a different charm of the panda astronaut, making the presentation delightful and full of imagination.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/05熊猫-jq/05熊猫-jq_1橙色背包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon panda astronaut with a round face and classic black and white color scheme, wearing a finely crafted white spacesuit with a blue control panel and wiring on the chest, red badge decorations on the shoulders, black gloves, and white boots, continuing the classic color scheme. The overall design is casual and friendly, showcasing a space exploration image.
+            <br>
+            
+            The video begins with a eye-level perspective, first showing the panda astronaut's front view, from which the smile and the front details of the spacesuit can be observed. As the video continues to rotate, the audience can see the side view, making the panda's round ears and the outline of the spacesuit more prominent. As the panda rotates on the screen, the back gradually comes into view, revealing an orange square experimental backpack equipped with various scientific instruments, antennas, and sample collection containers. Finally, the panda completes a 360-degree rotation, allowing the audience to see the complete image of the research astronaut. The video ends at this point.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/05熊猫-jq/05熊猫-jq_2能量球.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon panda astronaut with a round face and classic black and white color scheme, wearing a finely crafted white spacesuit with a blue control panel and wiring on the chest, red badge decorations on the shoulders, black gloves, and white boots, continuing the classic color scheme. The overall design is casual and friendly, showcasing a space exploration image.
+            <br>
+            The video starts with a eye-level perspective, first showing the panda astronaut's front view, from which the smile and the front details of the spacesuit can be observed. As the video continues to rotate, the audience can see the side view, making the panda's round ears and the outline of the spacesuit more prominent. As the panda rotates on the screen, the back gradually appears, revealing a transparent spherical backpack containing an energy core emitting rainbow-colored light. Finally, the panda completes a 360-degree rotation, presenting a highly sci-fi futuristic astronaut image, and the video ends at this point.
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <!-- Example 6: 古堡 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 6</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/06古堡-jq/06古堡-jq_1石门.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A multi-layered tower house in a magical fairy tale style, with a colorful mottled tile roof, vines entwined around the exterior walls, a chimney and hanging lanterns on the tower top, warm yellow light emanating from the windows, and a cobblestone path leading to the door, with colorful mushrooms and green plants scattered around.
+            <br>
+            The camera maintains a steady height while smoothly performing a 360-degree horizontal rotation around the fairytale house. It begins by showcasing the main architectural features of the front facade. As the camera moves to the side, numerous windows come into view. When it reaches the back of the house, a stone door entrance is revealed. The camera continues rotating to the other side. Throughout the entire rotation, the structure remains stationary, and the lighting stays consistent.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/06古堡-jq/06古堡-jq_2红木门.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A multi-layered tower house in a magical fairy tale style, with a colorful mottled tile roof, vines entwined around the exterior walls, a chimney and hanging lanterns on the tower top, warm yellow light emanating from the windows, and a cobblestone path leading to the door, with colorful mushrooms and green plants scattered around.
+            <br>
+            The camera maintains a steady height while smoothly performing a 360-degree horizontal rotation around the fairytale house.  It begins by showcasing the main architectural features and entrance details at the front. As the camera turns to the side, red doors and windows come into view. Continuing to the back of the house, a functional brown wooden door is visible. As the rotation moves to the other side, a garden enclosed by white railings appears. Throughout the entire shoot, the building remains completely static.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Example 7: 战斧 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 7</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/07战斧-jq/07战斧-jq_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The magical double-bladed axe combines practicality and decoration. Its T-shaped structure features sharp dual arc blades at the top, with a deep gray metallic surface that has fine textures and geometric patterns. The central sturdy support exudes a regal aura, while the deep wood-colored axe handle wrapped in red and black textured rope enhances grip. The extended bottom provides a balanced feel, and the exquisite design makes it an art collectible.
+            <br>
+            The video is filmed from a straight-on perspective, starting from the side of the axe. As the axe rotates, viewers gradually see the top of the axe and the detailed textures of the blade. As the rotation continues, the red wrapping decoration on the handle becomes fully visible, showcasing the grip details of the axe. When the rotation reaches the front of the axe, the intricate geometric patterns on the central metal part can be seen—details that are not visible from other angles. Finally, the video completes a full 360-degree rotation of the axe, revealing its elegant yet deadly design.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/07战斧-jq/07战斧-jq_1龙鳞.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The magical double-bladed axe combines practicality and decoration. Its T-shaped structure features sharp dual arc blades at the top, with a deep gray metallic surface that has fine textures and geometric patterns. The central sturdy support exudes a regal aura, while the deep wood-colored axe handle wrapped in red and black textured rope enhances grip. The extended bottom provides a balanced feel, and the exquisite design makes it an art collectible.
+            <br>
+            The video is filmed at eye level, with the camera maintaining a consistent height while performing a 360-degree horizontal rotation. It begins from the side, showcasing the overall design of the axe and details of the blade. As the camera moves to the back, the axe blade is revealed to be covered in intricate dragon scale patterns, with the edges of the scales displaying a metallic sheen and a red metal texture. As the rotation continues, the handle and the red dragon scale decorations create a visually rich layered effect. Throughout the entire shoot, the axe remains completely still, and the details of the dragon scale pattern are clearly visible.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/07战斧-jq/07战斧-jq_2生命宝珠.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The magical double-bladed axe combines practicality and decoration. Its T-shaped structure features sharp dual arc blades at the top, with a deep gray metallic surface that has fine textures and geometric patterns. The central sturdy support exudes a regal aura, while the deep wood-colored axe handle wrapped in red and black textured rope enhances grip. The extended bottom provides a balanced feel, and the exquisite design makes it an art collectible.
+            <br>
+            The video is shot from a level perspective, with the camera maintaining a stable height for a 360-degree horizontal rotation. Initially, the camera shows the axe's basic shape and blade features from the side. When the camera moves to the back, a jade-green life gem floats between the two blades. Inside the gem, there is flowing light, surrounded by four golden feathers that remain in a static, slightly swaying posture in the breeze. As the rotation continues, the handle and red wrapping decoration naturally blend with tradition. From the front, the central geometric pattern and the mysterious glow of the life gem complement each other. Throughout the entire rotation, everything remains still, clearly displaying each leaf texture and the gem's transparent quality.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/07战斧-jq/07战斧-jq_3紫水晶.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The magical double-bladed axe combines practicality and decoration. Its T-shaped structure features sharp dual arc blades at the top, with a deep gray metallic surface that has fine textures and geometric patterns. The central sturdy support exudes a regal aura, while the deep wood-colored axe handle wrapped in red and black textured rope enhances grip. The extended bottom provides a balanced feel, and the exquisite design makes it an art collectible.
+            <br>
+            The video is filmed at eye level, with the camera maintaining a steady height while performing a 360-degree horizontal rotation. It begins by showing the silhouette and blade textures of the axe from the side. As the rotation progresses and the camera moves to the back, a glowing purple crystal is revealed at the center between the two blades. The crystal is hexagonal in shape, with mysterious rune-like patterns faintly visible inside, and it is held in place by finely crafted metallic claw-shaped brackets. The entire filming remains static.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Example 8: 猴子-->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 8</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/08补充-猴子-dgg/08补充-猴子-dgg_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon monkey is dressed in a pink dress covered with white polka dots, radiating a sense of innocence and cuteness. The dress fits snugly and falls naturally, with the hem reaching the knees and gently swaying with movement, full of liveliness. The monkey has a rounded and well-balanced body, with large, round ears and soft pink inner ear flaps that complement the style of the outfit. The hat matches the dress’s pattern and is topped with a fluffy pom-pom, adding layers and a playful vibe.
+            <br>
+            The camera starts from the front, showcasing the monkey’s details and the intricate pattern design of the outfit. As the camera slowly rotates to the side, the side profile of the hat and the three-dimensional look of the ears become more apparent, and you can also see the back hem of the outfit gently swaying as the monkey moves. Rotating to the back reveals that the back hem is slightly wider than the front, ensuring smooth movement while walking. Finally, the camera steadily returns to the front, with the whole scene filled with a sense of fun and imagination.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/08补充-猴子-dgg/08补充-猴子-dgg_1翅膀.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon monkey is dressed in a pink dress covered with white polka dots, radiating a sense of innocence and cuteness. The dress fits snugly and falls naturally, with the hem reaching the knees and gently swaying with movement, full of liveliness. The monkey has a rounded and well-balanced body, with large, round ears and soft pink inner ear flaps that complement the style of the outfit. The hat matches the dress’s pattern and is topped with a fluffy pom-pom, adding layers and a playful vibe.
+            <br>
+            The camera captures the monkey’s lively expression and the polka dot details of the dress from the front. Then, as it shifts to the side, a pair of pink butterfly wings can be seen unfolding from the monkey’s back, with the base fitting closely and naturally to the body, appearing delicate and refined. The wings have a soft gradient sheen, shimmering under the light. When the camera moves to the back, the wings occupy the entire back area, with white polka dots along the edges that echo the pattern of the dress. The tail pokes out from the center of the hem, curving slightly upward and adding a playful touch. Finally, the camera smoothly returns to the front, completing the scene with a lighthearted and cheerful atmosphere.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/08补充-猴子-dgg/08补充-猴子-dgg_2蓝色背包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon monkey is dressed in a pink dress covered with white polka dots, radiating a sense of innocence and cuteness. The dress fits snugly and falls naturally, with the hem reaching the knees and gently swaying with movement, full of liveliness. The monkey has a rounded and well-balanced body, with large, round ears and soft pink inner ear flaps that complement the style of the outfit. The hat matches the dress’s pattern and is topped with a fluffy pom-pom, adding layers and a playful vibe.
+            <br>
+            The camera captures the monkey’s lively expression and the polka dot details of the dress from the front. As it shifts to the side, the side profile of the hat and the three-dimensional quality of the ears become more apparent, appearing natural and harmonious. When the camera moves to the back, a blue mini backpack can be seen on the monkey’s shoulders, adorned with white polka dots matching the dress, giving it a delicate and cute look. The backpack’s straps fit snugly against the body. Its rounded shape echoes the monkey’s plump proportions. Finally, the camera smoothly returns to the front, with the backpack’s design perfectly integrated into the overall look, adding extra playfulness and energy to the scene.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/08补充-猴子-dgg/08补充-猴子-dgg_3斗篷.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A cartoon monkey is dressed in a pink dress covered with white polka dots, radiating a sense of innocence and cuteness. The dress fits snugly and falls naturally, with the hem reaching the knees and gently swaying with movement, full of liveliness. The monkey has a rounded and well-balanced body, with large, round ears and soft pink inner ear flaps that complement the style of the outfit. The hat matches the dress’s pattern and is topped with a fluffy pom-pom, adding layers and a playful vibe.
+            <br>
+            The camera starts from the front and slides to the side, gradually revealing the star patterns along the edge of the purple cape. The cape’s soft texture contrasts with the drape of the skirt. As the camera moves to the back, the cape is fully spread out, covering the shoulders and the entire back area. The details of the yellow star patterns and tassels are clearly visible, and the hem of the cape gently rests on the skirt, creating a layered overall design. Finally, the camera smoothly returns to the front, with the cape’s design perfectly integrated into the overall look, adding more playfulness and energy to the scene.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Example 9: 玩偶 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 9</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/09补充-玩偶-dgg/09补充-玩偶-dgg_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This video showcases a cartoon-style plush toy model with a compact, cylindrical structure. The toy is covered in gradient rainbow fur, transitioning from pink, orange-yellow, green, blue, to purple from the top of the head to the feet. The ears are upright bunny ears, with white inner sides and the outer sides continuing the pink fur of the head. The hands and feet are rounded and ball-shaped, with pale yellow palms and soles. The face is cartoonish, featuring large eyes and a prominent smile, resulting in a cohesive overall appearance with vivid colors.
+            <br>
+            The video is filmed at eye level, first displaying the plush toy from the front, where the rainbow hues appear especially striking under the lighting, leaving a strong impression with their bold contrast. The toy slowly rotates, gradually revealing the side details, making the shape of the ears and the luster of the fur more pronounced. Afterward, the back of the toy is fully shown, with the colors matching the front and presenting an even gradient. The video concludes with the toy completing a 360-degree rotation, providing viewers with a comprehensive, all-around view of the toy.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/09补充-玩偶-dgg/09补充-玩偶-dgg_1尾巴.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This video showcases a cartoon-style plush toy model with a compact, cylindrical structure. The toy is covered in gradient rainbow fur, transitioning from pink, orange-yellow, green, blue, to purple from the top of the head to the feet. The ears are upright bunny ears, with white inner sides and the outer sides continuing the pink fur of the head. The hands and feet are rounded and ball-shaped, with pale yellow palms and soles. The face is cartoonish, featuring large eyes and a prominent smile, resulting in a cohesive overall appearance with vivid colors.
+            <br>
+            The video is filmed at eye level, initially showing the front of the plush toy. Then, the camera slowly moves to the side, where the three-dimensional quality of the ear becomes more prominent. Next, the camera shifts to the back of the toy, where a pink bunny tail is visible near the lower back. The tail is rounded overall, with evenly distributed, soft fur, and its base aligns with the bottom edge of the toy. Finally, the camera completes a 360-degree rotation at a steady pace, fully showcasing the toy’s overall design details and beauty from every angle.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/09补充-玩偶-dgg/09补充-玩偶-dgg_2蝴蝶结.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This video showcases a cartoon-style plush toy model with a compact, cylindrical structure. The toy is covered in gradient rainbow fur, transitioning from pink, orange-yellow, green, blue, to purple from the top of the head to the feet. The ears are upright bunny ears, with white inner sides and the outer sides continuing the pink fur of the head. The hands and feet are rounded and ball-shaped, with pale yellow palms and soles. The face is cartoonish, featuring large eyes and a prominent smile, resulting in a cohesive overall appearance with vivid colors.
+            <br>
+            The video begins with a front view, where the rainbow-colored plush appears soft and shiny under the light. The camera slowly moves to the side, showcasing the three-dimensional quality of the toy's ears and the smooth gradient of its fur. As the camera continues to rotate to the back, the gradient fur on the back remains evenly distributed, and a large red bow stands out at the back of the head, clearly designed and centered. Finally, the camera completes a full rotation, thoroughly displaying the toy from every angle and ensuring that all details are clearly presented.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/09补充-玩偶-dgg/09补充-玩偶-dgg_3背包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            This video showcases a cartoon-style plush toy model with a compact, cylindrical structure. The toy is covered in gradient rainbow fur, transitioning from pink, orange-yellow, green, blue, to purple from the top of the head to the feet. The ears are upright bunny ears, with white inner sides and the outer sides continuing the pink fur of the head. The hands and feet are rounded and ball-shaped, with pale yellow palms and soles. The face is cartoonish, featuring large eyes and a prominent smile, resulting in a cohesive overall appearance with vivid colors.
+            <br>
+            The video starts from the front at eye level, with the plush toy’s rainbow gradient colors appearing vivid and rich under the light. The camera slowly moves to the side, showcasing the soft texture of the fur. As the camera gradually shifts to the back, a cartoon backpack can be seen attached to the lower back, featuring a soft pastel yellow color. Finally, the camera completes a smooth rotation, highlighting the toy’s details and design features from all angles.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Example 10: 工兵 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 10</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/10补充-工兵-dgg/10补充-工兵-dgg_1工具包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The character in the video presents a cartoon-style teenage adventurer, full of energy and a spirit of adventure. The character wears a light gray hat adorned with a yellow badge in the center, symbolizing professionalism and enthusiasm. They are dressed in a light blue shirt with rolled-up sleeves, paired with a yellow tie featuring black stripes, giving a simple and practical overall design. The dark brown shoulder strap contrasts sharply with the round pink tool at the waist, which is uniquely designed and highly functional. Deep blue trousers are paired with yellow work boots, creating a harmonious color scheme that showcases both a professional style and an adventurous trait.
+            <br>
+            As the camera circles around the character, the back reveals a large toolbox backpack that fits snugly against the back, featuring a hard-shell deep brown design with a yellow handle on top. The sides of the backpack are decorated with rivets and equipped with multiple small tool pockets, highlighting its functionality and practicality. As the camera sweeps over the lower back, it shows the bottom of the toolbox with a thickened design for added stability and durability, consistent with the overall style. Returning to the front, the pink tool and the backpack form a striking contrast, and the toolbox design further emphasizes the character’s adventurous and professional qualities.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/10补充-工兵-dgg/10补充-工兵-dgg_2斗篷.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The character in the video presents a cartoon-style teenage adventurer, full of energy and a spirit of adventure. The character wears a light gray hat adorned with a yellow badge in the center, symbolizing professionalism and enthusiasm. They are dressed in a light blue shirt with rolled-up sleeves, paired with a yellow tie featuring black stripes, giving a simple and practical overall design. The dark brown shoulder strap contrasts sharply with the round pink tool at the waist, which is uniquely designed and highly functional. Deep blue trousers are paired with yellow work boots, creating a harmonious color scheme that showcases both a professional style and an adventurous trait.
+            <br>
+            As the camera circles around the character, the details of the explorer backpack on the character’s back are revealed. The backpack features a deep blue tone, accented with yellow zippers and pockets, and is connected on both sides by wide straps. Shifting to one side, a mesh pocket on the side of the backpack can be seen, equipped with an elastic band to adjust how securely items are held. On the other side, a vest loop is visible under the shirt hem, adding a practical element and contributing to the overall explorer design. Returning to the front, a small pink exploration tool, whose purpose is unclear, is possibly used for site measurement or positioning, further emphasizing the character’s pragmatic and adventurous theme.
+          </div>
+        </div>
+      </div>
+
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/10补充-工兵-dgg/10补充-工兵-dgg_3旅行包.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            The character in the video presents a cartoon-style teenage adventurer, full of energy and a spirit of adventure. The character wears a light gray hat adorned with a yellow badge in the center, symbolizing professionalism and enthusiasm. They are dressed in a light blue shirt with rolled-up sleeves, paired with a yellow tie featuring black stripes, giving a simple and practical overall design. The dark brown shoulder strap contrasts sharply with the round pink tool at the waist, which is uniquely designed and highly functional. Deep blue trousers are paired with yellow work boots, creating a harmonious color scheme that showcases both a professional style and an adventurous trait.
+            <br>
+            As the camera circles around the character, the back reveals a large toolbox backpack that fits snugly against the back, featuring a hard-shell deep brown design with a yellow handle on top. The sides of the backpack are decorated with rivets and equipped with multiple small tool pockets, highlighting its functionality and practicality. As the camera sweeps over the lower back, it shows the bottom of the toolbox with a thickened design for added stability and durability, consistent with the overall style. Returning to the front, the pink tool and the backpack form a striking contrast, and the toolbox design further emphasizes the character’s adventurous and professional qualities.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 11: 刺客 -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 11</b> 
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/11补充-刺客-jq/11补充-刺客-jq_0原生.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A mysterious superhero character in the style of ancient Egyptian mythology, wearing a white full-body tight suit adorned with dark gold decorative elements. The upper body features two gold rings with hollow designs, and a loose cape drapes down to the ankles, creating a sense of dynamic beauty. The white mask leaves only the eyes exposed, which shimmer faintly. Both gloves and boots are embellished with gold stripes. The character wears a hood that merges seamlessly with the cape, giving the entire look a unified, mysterious, and powerful feel.
+            <br>
+            The camera maintains a steady height, slowly rotating 360 degrees horizontally around the character. It starts with a frontal view, allowing the audience to clearly see the character’s powerful aura and all the details of the chest decorations. As the camera turns, the character’s profile gradually appears, with the three-dimensional structure of the robe and the gold-decorated arms clearly visible. When the camera reaches the back, star patterns embroidered on the hood can be seen, with the stars arranged irregularly. The back of the cape also features the same star patterns. Throughout the shoot, the character remains completely still, and the textures and decorative details of the costume are clearly presented from every angle, making it suitable for precise 3D reconstruction needs.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 32px; align-items: stretch;height: 300px;">
+        <div style="flex: 0 0 25%; max-width: 25%; display: flex; flex-direction: column;">
+          <video 
+            src="droplet3d_source/videos/multi_prompt_example/11补充-刺客-jq/11补充-刺客-jq_1渐变色斗篷.mp4" 
+            autoplay loop muted 
+            style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block;">
+          </video>
+        </div>
+        <div style="flex: 0 0 75%; max-width: 75%; display: flex; flex-direction: column;">
+          <div style="height: 100%; overflow-y: auto; margin: 0; word-wrap: break-word; text-align: justify; text-justify: inter-word; hyphens: auto; font-size: 1rem; line-height: 1.7; padding-right:8px;">
+            <b style="color: blue;">Prompt:</b>
+            A mysterious superhero character in the style of ancient Egyptian mythology, wearing a white full-body tight suit adorned with dark gold decorative elements. The upper body features two gold rings with hollow designs, and a loose cape drapes down to the ankles, creating a sense of dynamic beauty. The white mask leaves only the eyes exposed, which shimmer faintly. Both gloves and boots are embellished with gold stripes. The character wears a hood that merges seamlessly with the cape, giving the entire look a unified, mysterious, and powerful feel.
+            <br>
+            The camera maintains a steady height, slowly rotating 360 degrees horizontally around the character. From the front view, the character’s majestic appearance and the details of the decorations on the front are displayed. As the perspective shifts, the texture of the robe and the gold decorative elements on the sides become clearly visible. When the camera moves to the back, a small blue crystal is embedded in the back of the hood. The back of the cape features a gradient effect that transitions smoothly from deep blue to light blue. The bottom edge of the cape is finely trimmed with gold. The character remains completely still with stable lighting, ensuring that all color and material variations are fully captured.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+
+    
+  </div>
+</section>
+
+
+
+<section class="section" id="Comparison">
+  <div class="container">
+    <h2 class="section-title">Comparative Examples</h2>
+    <div class="content">
+      <p>
+            To validate the accuracy of the generated content by Droplet3D given a single image and text prompt, we compared it with other TI-to-3D methods, including 
+            <b>LGM</b>, 
+            <b>Hunyuan3D-2</b>, 
+            <b>Qingying</b>, 
+            <b>MVControl</b>, and <b>TRELLIS</b>.
+          </p>
+    </div>
+
+
+        <!-- Example 1: Boat -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 1</b> 
+      </div>
+      <div class="content">
+        <p>
+          This character is an anthropomorphic onion figure. The main body is bright yellow, with a round cap on top. The body is segmented, with a smooth and plump texture, and features vertical stripes. The character has a wide, open-mouthed smile, white eyes with black pupils, and the facial features are concentrated at the front. It has short, stubby arms and legs, and wears brown round-toed boots. The overall proportions are exaggerated and the style is consistent, exhibiting distinct characteristics of a cartoon toy.
+          <br>
+          The video begins with a front view of the onion character. The camera then slowly moves around to the side, revealing the round outline of the cap and the parallel contour lines of the onion body’s texture. As the camera gradually shifts to the back, the surface texture of the onion is shown to be symmetrical and continuous, and the edge of the cap is even and smooth. The camera continues to move to the other side, eventually returning to the front view, where the round cap on top and the shiny boots below visually echo each other, further highlighting the character’s cute, cartoonish style. After a full rotation, the video ends, leaving a deep impression of the character’s overall roundness and bright colors.
+        </p>
+      </div>
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_01金钱怪.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_01金币怪.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_01金币怪.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_01金钱怪.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_01金币怪.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+
+        
+
+      </div>
+    </div>
+
+    <!-- Example 2: Kitchen -->
+    <div class="example-block" id="ExampleKitchen">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 2</b> 
+      </div>
+      <div class="content">
+        <p>
+          The image presents a fantastical scene rich in Eastern ambience. The main subject is a traditional multi-story pagoda, perched atop a steep rocky island peak. The pagoda has a complex structure, dominated by dark red and brown tones. Its roofs curve upwards and ascend in tiers, crowned with a golden spire, which gives it a majestic and mysterious appearance. Mist and clouds swirl around, creating a visual illusion of floating in mid-air, making the pagoda seem as if it is suspended above the sky. The island is covered with vibrant red-leaved trees, which complement the red sky in the background, creating an atmosphere that is both warm and solemn.
+          <br>
+          As the camera circles around the pagoda, the various angles of the structure and changes in the environment can be observed. The front view displays the pagoda's complete edges and eaves, with strong colors making it stand out even more against the red background. From the side, the layered structure of the pagoda is evident. Circling to the back, the suspended pillars between the pagoda's sections appear like paths leading to unsolved mysteries, and the red trees are even denser from this angle. Finally, the camera returns to its initial position, once again revealing the full view of the pagoda and the stunning visual impact brought by the red sky.
+        </p>
+      </div>
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_02红楼阁.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_02红楼阁.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_02红楼阁.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_02红楼阁.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_02红楼阁.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 3: Lake -->
+    <div class="example-block" id="ExampleLake">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 3</b> 
+      </div>
+      <div class="content">
+        <p>
+        <!-- <b style="color: blue;">Prompt</b>
+        <br> -->
+        The cute girl is dressed in a red mech suit, carrying a heavy red mechanical backpack. She stands upright with her chest out and head held high. The mech suit is mainly a vibrant red, while her hair is blue, styled into a bun with short hair neatly parted down the middle at the back of her head. Her torso is equipped with red armor, and the joints near the red armor on her shoulders, chest, and knees are connected with silvery metallic parts. On her back, there is a heavy red mech backpack that gleams with a metallic sheen.
+        <br>
+        The audience first sees the robot from the front, with her facial expression clearly visible. Then, as the view rotates to the side, the girl can be seen standing straight with her head held high, her head rounded and her nose slightly upturned. The joints connecting her arm and leg armor are silver, framed by red protective gear, and the center of the shoulder armor features a silver circle. As the rotation continues, the back armor can be observed, revealing the complete red back armor. Finally, the view continues to rotate until a full circle is completed.
+      </p>
+      </div>
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_03蓝毛.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_03蓝毛.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_03蓝毛.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_03蓝毛.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_03蓝毛.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 4: Snow -->
+    <div class="example-block" id="ExampleSnow">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 4</b> 
+      </div>
+      <div class="content">
+        <p>
+        The image depicts a cute little girl in a minimalist style, standing upright and giving off a sense of warmth and tranquility. She has smooth, light blonde hair that falls just below her shoulders in soft waves. A pink flower adorns her hair, adding a touch of gentleness and innocence. The girl has delicate features and a sweet expression. She is wearing a loose, light beige long-sleeve sweater, with a slightly longer hem for a casual and natural look. She holds a brown book in both hands, with simple letters on the cover. She is wearing light-colored split-toe cotton socks and no shoes.
+        <br>
+        The viewpoint starts from the front and then rotates; throughout the process, the girl's posture and smile remain unchanged. As the camera moves to the side, the softness and natural flow of her hair become more apparent, showing its gentle waves and length just past her shoulders. Rotating to the back, the length of her hair at the back matches what is seen from the side. When the camera returns to the front, the letters on the cover of the book in the girl's hands are clearly visible. The entire video presents a multi-angle close-up of this lovely girl, always maintaining her pure and warm aura.
+      </p>
+      </div>
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_04暖暖.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_04暖暖.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_04暖暖.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_04暖暖.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_04暖暖.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Example 5: staircase -->
+    <div class="example-block" id="ExampleStaircase">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 5</b> 
+      </div>
+      <div class="content">
+        <p>
+        A cartoon panda astronaut with a round face and classic black and white color scheme, wearing a finely crafted white spacesuit with a blue control panel and wiring on the chest, red badge decorations on the shoulders, black gloves, and white boots, continuing the classic color scheme. The overall design is casual and friendly, showcasing a space exploration image.
+        <br>
+        The video begins with a eye-level perspective, first showing the panda astronaut's front view, from which the smile and the front details of the spacesuit can be observed. As the video continues to rotate, the side view is revealed, making the panda’s round ears and the spacesuit’s backpack structure more prominent. As the panda continues to turn on the screen, the back view gradually appears, showing the equipment and vest design on the back. Finally, the panda completes a 360-degree rotation, giving the audience a full-body view before the video ends. Each angle showcases a different charm of the panda astronaut, making the presentation delightful and full of imagination.
+      </p>
+      </div>
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_05熊猫.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_05熊猫.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_05熊猫.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_05熊猫.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_05熊猫.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 6: Sunset -->
+    <div class="example-block" id="ExampleSunset">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 6</b> 
+      </div>
+      <div class="content">
+        <p>
+          A multi-layered tower house in a magical fairy tale style, with a colorful mottled tile roof, vines entwined around the exterior walls, a chimney and hanging lanterns on the tower top, warm yellow light emanating from the windows, and a cobblestone path leading to the door, with colorful mushrooms and green plants scattered around.
+          <br>
+          The camera maintains a steady height while smoothly performing a 360-degree horizontal rotation around the fairytale house. It begins by showcasing the main architectural features of the front facade. As the camera moves to the side, numerous windows come into view. When it reaches the back of the house, a stone door entrance is revealed. The camera continues rotating to the other side. Throughout the entire rotation, the structure remains stationary, and the lighting stays consistent.
+      </p>
+      </div>
+
+      <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between; margin-top: 1.5rem;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_06古堡.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_06古堡.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_06古堡.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_06古堡.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_06古堡.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 7: Sunset -->
+    <div class="example-block" id="ExampleSunset">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Example 7</b> 
+      </div>
+      <div class="content">
+        <p>
+          The magical double-bladed axe combines practicality and decoration. Its T-shaped structure features sharp dual arc blades at the top, with a deep gray metallic surface that has fine textures and geometric patterns. The central sturdy support exudes a regal aura, while the deep wood-colored axe handle wrapped in red and black textured rope enhances grip. The extended bottom provides a balanced feel, and the exquisite design makes it an art collectible.
+          <br>
+          The video is filmed from a straight-on perspective, starting from the side of the axe. As the axe rotates, viewers gradually see the top of the axe and the detailed textures of the blade. As the rotation continues, the red wrapping decoration on the handle becomes fully visible, showcasing the grip details of the axe. When the rotation reaches the front of the axe, the intricate geometric patterns on the central metal part can be seen—details that are not visible from other angles. Finally, the video completes a full 360-degree rotation of the axe, revealing its elegant yet deadly design.
+      </p>
+      </div>
+
+      <div class="video-gallery" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between; margin-top: 1.5rem;">
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Droplet3D/droplet3d_07战斧.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/LGM_result/lgm_07战斧.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>LGM</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/Hunyuan3d_2result/hunyuan3d2_07战斧.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Hunyuan3D-2</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/mvcontrol_result/mvcontrol_07战斧.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>MVControl</b></p>
+        </div>
+
+        <div class="video-item" style="width: 19%;">
+          <video src="droplet3d_source/videos/compare_example/trellis_result/trellis_07战斧.mp4" autoplay loop muted style="width: 100%;"></video>
+          <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>TRELLIS</b></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<section class="section" id="resources">
+  <div class="container">
+    <h2 class="section-title has-text-centered">BibTeX Citation</h2>
+    <pre style="text-align: left; background: #f7f7f7; padding: 1em; border-radius: 8px; overflow-x: auto;">
+@article{droplevideo2024,
+  title={DropletVideo: Integral Spatio-Temporal Consistent Video Generation},
+  author={Zhang, Runze and Du, Guoguang and Li, Xiaochuan and Jia, Qi and Jin, Liang and Liu, Lu and Wang, Jingjing and Xu, Cong and Guo, Zhenhua and Zhao, Yaqian and Gong, Xiaoli and Li, Rengang and Fan, Baoyu},
+  journal={arXiv preprint arXiv:2406.07846},
+  year={2024}
+}
+    </pre>
+  </div>
+</section>
+</main>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p><strong>DropletVideo</strong> by <a href="https://github.com/IEIT-AGI">IEIT Lab</a>. Source on <a href="https://github.com/IEIT-AGI/DropletVideo">GitHub</a>.</p>
+    </div>
+  </footer>
+</body>
+
+</html>
