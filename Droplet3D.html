@@ -112,10 +112,10 @@
         <a class="navbar-item" href="#abstract">Abstract</a>
         <a class="navbar-item" href="#dataset">Dataset</a>
         <a class="navbar-item" href="#method">Method</a>
-        <a class="navbar-item" href="#Integral">Integral</a>
-        <a class="navbar-item" href="#3DConsistency">3D</a>
-        <a class="navbar-item" href="#Controllable">Motion Density</a>
-        <a class="navbar-item" href="#CameraMotion">Camera Motion</a>
+        <a class="navbar-item" href="#FeasibleControllable">FeasibleControllable</a>
+        <a class="navbar-item" href="#3DLifting">3DLifting</a>
+        <a class="navbar-item" href="#SceneLevel">SceneLevel</a>
+        <!-- <a class="navbar-item" href="#CameraMotion">Camera Motion</a> -->
         <a class="navbar-item" href="#Comparison">Comparison</a>  
       </div>
     </div>
@@ -125,23 +125,29 @@
     <div class="hero-body has-text-centered">
       <div class="container">
         <h1 class="title is-2 has-text-weight-bold mb-5" style="margin-top: 2rem;">
-          Droplet3D: World Insights Captured from Video Facilitates 3D Assets Generation
+          Droplet3D: Commonsense Priors from Videos Facilitate 3D Generation
         </h1>
       <div class="is-size-6 has-text-centered mb-2" style="line-height: 1.8;">
         <div class="author-block">
-          <a href="#">Runze Zhang</a><sup>1*</sup><span class="comma">,</span>
+          
           <a href="#">Guoguang Du</a><sup>1*</sup><span class="comma">,</span>
           <a href="#">Xiaochuan Li</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Qi Jia</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Runze Zhang</a><sup>1*</sup><span class="comma">,</span>
           <a href="#">Liang Jin</a><sup>1*</sup><span class="comma">,</span>
-          <a href="#">Lu Liu</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Jingjing Wang</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Cong Xu</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Qi Jia</a><sup>1*</sup><span class="comma">,</span>
+          <a href="#">Lihua Lu</a><sup>1*</sup><span class="comma">,</span>
           <a href="#">Zhenhua Guo</a><sup>1</sup><span class="comma">,</span>
+          <!-- <a href="#">Lu Liu</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Jingjing Wang</a><sup>1</sup><span class="comma">,</span>
+          <a href="#">Cong Xu</a><sup>1</sup><span class="comma">,</span> -->
+          
         </div>
         <div class="author-block">
           <a href="#">Yaqian Zhao</a><sup>1</sup><span class="comma">,</span>
-          <a href="#">Xiaoli Gong</a><sup>2</sup>
+          <a href="#">Haiyang Liu</a><span class="comma">,</span>
+          <a href="#">Tianqi Wang</a><span class="comma">,</span>
+          <a href="#">Changsheng Li</a><span class="comma">,</span>
+          <a href="#">Xiaoli Gong</a><sup>2</sup><span class="comma">,</span>
           <a href="#">Rengang Li</a><sup>1,3†</sup><span class="comma">,</span>
           <a href="#">Baoyu Fan</a><sup>1,2†</sup>
         </div>
@@ -175,17 +181,17 @@
           <!-- Code -->
           <div class="column is-narrow has-text-centered">
             <div class="publication-links">
-              <a href="https://github.com/IEIT-AGI/DropletVideo" class="external-link button is-normal is-rounded is-dark">
+              <a href="https://github.com/IEIT-AGI/Droplet3D" class="external-link button is-normal is-rounded is-dark">
                 <span class="icon"><i class="fab fa-github"></i></span>
                 <span>Code (Github)</span>
               </a>
             </div>
           </div>
 
-          <!-- Dataset 10M -->
+          <!-- Droplet3D-4M -->
           <div class="column is-narrow has-text-centered">
             <div class="publication-links">
-              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-10M" class="external-link button is-normal is-rounded is-dark">
+              <a href="https://huggingface.co/datasets/DropletX/Droplet3D-4M" class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                   <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
                 </span>
@@ -197,26 +203,26 @@
           <!-- Dataset 1M -->
           <div class="column is-narrow has-text-centered">
             <div class="publication-links">
-              <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" class="external-link button is-normal is-rounded is-dark">
+              <a href="https://huggingface.co/DropletX/Droplet3D-5B" class="external-link button is-normal is-rounded is-dark">
                 <span class="icon">
                   <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="height: 1em; vertical-align: middle;">
                 </span>
-                <span>Datasets (1M) | Most-Qualified</span>
+                <span>Model (Droplet3D-5B)</span>
               </a>
             </div>
           </div>
         </div>
         
-      <div align="center" style="background: #fff3d4; padding: 12px; border-radius: 8px; margin: 16px 0; color: black;">
+      <!-- <div align="center" style="background: #fff3d4; padding: 12px; border-radius: 8px; margin: 16px 0; color: black;">
         🔍 <strong>Dataset Note:</strong> 
-        <a href="https://huggingface.co/datasets/DropletX/DropletVideo-1M" target="_blank"><em>DropletVideo-1M</em></a> 
-         is the premium subset of DropletVideo-10M, filtered with aesthetic score > 4.51 and image quality score > 7.51.
-      </div>
+        <a href="https://huggingface.co/datasets/DropletX/Droplet3D-4M" target="_blank"><em>Droplet3D-4M</em></a> 
+         is the premium subset of Droplet3D-4M, filtered with aesthetic score > 4.0 and image quality score > 4.0.
+      </div> -->
         
         <div class="buttons is-centered">
           <a class="button is-primary is-rounded is-medium" href="#abstract"><i class="fas fa-angle-down mr-2"></i> Explore</a>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </section>
 
@@ -242,7 +248,7 @@
       </div> -->
       <div class="content mt-4">
         <p>
-          Scaling laws have validated the success and promise of large-data-trained models in creative generation across text, image, and video domains. However, this paradigm faces data scarcity in the 3D domain, as there is far less of it available on the internet compared to the aforementioned modalities. Fortunately, there exist adequate videos which inherently contain rich 3D-consistent information, offering an alternative supervisory signal to mitigate the generalization bottleneck caused by limited native 3D data. This paper explores how to apply the video modality in 3D asset generation, spanning datasets to models. We introduce <b>Droplet3D-4M</b>, the first large-scale video dataset with multi-view-consistent annotations, and train <b>Droplet3D</b>, a multi-view generative model supporting both image and dense text inputs.
+          Scaling laws have validated the success and promise of large-data-trained models in creative generation across text, image, and video domains. However, this paradigm faces data scarcity in the 3D domain, as there is far less of it available on the internet compared to the aforementioned modalities. Fortunately, there exist adequate videos that inherently contain commonsense priors, offering an alternative supervisory signal to mitigate the generalization bottleneck caused by limited native 3D data. On the one hand, videos capturing multiple views of an object or scene provide a spatial consistency prior for 3D generation. On the other hand, the rich semantic information contained within the videos enables the generated content to be more faithful to the text prompts and semantically plausible. This paper explores how to apply the video modality in 3D asset generation, spanning datasets to models. We introduce <b>Droplet3D-4M</b>, the first large-scale video dataset with multi-view level annotations, and train <b>Droplet3D</b>,, a generative model supporting both image and dense text input. Extensive experiments validate the effectiveness of our approach, demonstrating its ability to produce spatially consistent and semantically plausible content. Moreover, in contrast to the prevailing 3D solutions, our approach exhibits the potential for extension to scene-level applications. This indicates that the commonsense priors from the videos significantly facilitate 3D creation.
         </p>
       </div>
     </div>
@@ -250,20 +256,39 @@
 
   <section class="section" id="dataset">
     <div class="container">
-      <h2 class="section-title">Droplet3D-4M Dataset</h2>
-      <div class="columns is-vcentered">
+      <h2 class="section-title">The Droplet3D-4M Dataset</h2>
+       <div class="columns is-vcentered">
         <figure>
-          <img src="droplet3d_source/images/droplet3d_4m_fig_s3_pipeline.jpeg" alt="The pipeline we proposed to curate the Droplet3D-4M dataset">
+          <img src="droplet3d_source/images/droplet3d_4m_fig_s3_pipeline_0.jpeg" alt="The pipeline we proposed to curate the Droplet3D-4M dataset">
+          <figcaption style="text-align: center; font-size: 1.1em; color: #555; margin-top: 4px;">
+            Fig. 1 A sample from Droplet3D-4M comprises a 85-frame multi-view rendered video and a fine-grained, 
+            <br>
+            multi-view-level text annotation. Different colors indicate new details from camera angle changes, similarly marked on the left.
         </figure>
 
       </div>
       <div class="content">
       <p>
-        the constructed <b>Droplet3D-4M</b> dataset comprises a meticulously curated collection of 4 million fully-covered multi-view video sequences, encompassing approximately 900 million individual frames with a total runtime exceeding 8,000 hours.
-        Its unprocessed raw 3D models were collected from Objaverse-XL, comprising 6.3 million models sourced from GitHub and Sketchfab.
-        This comprehensive visual dataset has been publicly released with the aim of advancing research in spherical vision systems and multi-view analysis.
-        It should be noted that due to the origin of some source models being sampled from the internet, the dataset is published under the CC BY-NC-SA 4.0 license.
-        Researchers are advised that although the material is freely available for academic research, all content within it remains subject to the original distribution permissions, restricting its use to non-commercial purposes only.
+        To take advantage of the commonsense priors acquired by video generation models trained in largescale video data and thereby enhance the generalization capability of 3D generative models, we construct a novel dataset <b>Droplet3D-4M</b> to bridge the gap between the video and 3D domains. Specifically, a qualifying 3D sample must satisfy two criteria. First, it should support dense, coherent multi-view sequences. This ensures compatibility with the output interface of video generation models, facilitating the generation of spatially consistent 3D content. Second, it should be accompanied by dense text annotations. This provides stronger supervision, enabling the 3D generator to maximally retain the video model’s semantic understanding of text. As the 3D generator inherits broader semantic knowledge from video data, this dense text supervision allows the generative model to effectively exploit this inherited capability.
+        <br>
+        Accordingly, our proposed dataset, <b>Droplet3D-4M</b> , comprises dense multi-view rendered videos and fine-grained, multi-view-level text annotations, as illustrated in Fig. 1. Each rendered video consists of an 85-frame image sequence captured from uniformly distributed 360°orbital viewpoints. The angular difference between adjacent frames is strictly controlled to be within 5°, ensuring video coherence, which is a critical factor In training video-driven generative models. In terms of text annotations, we provide dense descriptions with an average length of 260 words, far exceeding those in existing 3D datasets. More importantly, the annotations not only cover holistic appearances such as shape and style but also specifically describe appearance variations induced by changes in viewpoint. For example in Fig. 1, the second paragraph of the text annotation details the side and rear features of the figurine, describing that the yellow backpack becomes partially visible from a side view and is only fully revealed from the back. This fine-grained, view-aware annotation paradigm provides unprecedented supervisory signals for the 3D generative model, effectively guiding and preserving the backbone network’s capacity for complex semantic understanding. 
+      </p>
+      </div>
+
+      <br>
+      <div class="columns is-vcentered">
+        <figure>
+          <img src="droplet3d_source/images/droplet3d_4m_fig_s3_pipeline.jpeg" alt="The pipeline we proposed to curate the Droplet3D-4M dataset">
+          <figcaption style="text-align: center; font-size: 1.1em; color: #555; margin-top: 4px;">
+            Fig. 2 The pipeline we proposed to curate the Droplet3D-4M dataset.
+        </figcaption>
+        </figure>
+
+      </div>
+      <br>
+      <div class="content">
+      <p>
+        For the construction of <b>Droplet3D-4M</b> , we propose a data pre-processing pipeline that balances quality and efficiency, and construct a new dataset, <b>Droplet3D-4M</b> . This pipeline employs adaptive sampling techniques instead of resource-intensive rendering during the initial screening phase, followed by targeted high-fidelity rendering only for validated assets. Compared to conventional workflows, this approach reduces computational overhead by a factor of 4 to 7× while generating metadatarich outputs of superior quality for multimodal learning tasks. The pipeline consists of three key parts: multi-view video rendering, image evaluation metric filtering, and multi-view-level caption generation, as shown in Fig. 2. Note that the raw 3D models we collected are from Objaverse-XL, comprising 6.3 million models sourced from GitHub and Sketchfab.
       </p>
       </div>
       
@@ -307,193 +332,40 @@
   <div class="container">
     <h2 class="section-title">The Droplet3D Model</h2>
     <figure>
+      <img src="droplet3d_source/images/droplet3d_model_0.jpeg" alt="Droplet3D Architecture">
+        <figcaption style="text-align: center; font-size: 1.3em; color: #555; margin-top: 4px;">
+          Droplet3D Framework
+        </figcaption>
+    </figure>
+    <br>
+    <div class="content">
+      To inherit the spatial consistency and semantic knowledge priors that are readily accessible to video models into 3D generation algorithms, we designed and trained Droplet3D. To this end, we specifically employ multi-view rendered videos from Droplet3D-4M to interface with the video backbone model. Furthermore, we use multi-view level annotations to provide fine-grained supervision for model fine-tuning, thereby preserving the model’s cross-modal semantic understanding capability. The above figure illustrates the architecture of Droplet3D Framework.
+    </div>
+
+
+    <figure>
       <img src="droplet3d_source/images/droplet3d_model.bmp" alt="Droplet3D Architecture">
-        <!-- <figcaption style="text-align: center; font-size: 0.88em; color: #555; margin-top: 4px;">
-          Overview of the Droplet3D Framework. To enhance performance, Droplet3D supports a text rewriting module, an image canonical view alignment, and the generation of surround videos. The created multi-view content can be integrated into reconstruction modules for various 3D modalities, thereby generating 3D assets for diverse purposes.
-        </figcaption> -->
+        <figcaption style="text-align: center; font-size: 1.3em; color: #555; margin-top: 4px;">
+          Overview of the Droplet3D Framework
+        </figcaption>
     </figure>
 
+    <br>
     <div class="content">
-      <!-- <p>
-        <b>1. Video Processing Pipeline:</b><br>
-        The video is processed by the 3D causal Variational Autoencoder (VAE)
-        following adaptive equalization sampling, which is steered by the motion
-        intensity <i>M</i>. The video feature <i>x<sub>v</sub></i> is then input into the
-        Modality-Expert Transformer, depicted on the right side of the figure,
-        to facilitate video generation in conjunction with the text encoding
-        <i>x<sub>t</sub></i>, the combined encoding <i>x<sub>T&amp;M</sub></i> of the temporal <i>T</i> and
-        the motion intensity <i>M</i>.
-      </p>
-      <p>
-        <b>2. Diagram Illustration:</b><br>
-        The upper left part illustrates the contrast between (a)
-        the traditional sampling approach and (b) DropletVideo's adaptive equalization sampling.
-      </p>
-      <p>
-        <b>3. Sampling Strategy Comparison:</b><br>
-        Traditional methods involve random segment interception followed by
-        fixed-frame-rate sampling of the intercepted segments, whereas
-        <strong>DropletVideo</strong> employs adaptive frame rate sampling across
-        the entire video segments, guided by <i>M</i>.
-      </p> -->
-
-      Based on the rendered videos and corresponding multi-view level captions from Droplet3D-4M, we trained a video generation model, termed Droplet3D, specifically designed for generating 3D dense surround-view images. 
-      The pipeline of Droplet3D in the 3D generation process is illustrated in Fig.
-      For any given text or image prompt, Droplet3D first aligns it with the model. 
-      Initially, we expand the user's input requirements based on a lightweight large language model, rewriting them into dense textual descriptions that follow the same distribution as the multi-view level captions in the Droplet3D-4M dataset. 
-      Simultaneously, to accommodate inputs from arbitrary viewpoints, we designed a anonical viewpoint alignment module to adjust the perspective of the input images. 
-      For the backbone network, we introduce a 3D causal VAE to achieve implicit space encoding and decoding of the video, and employ a multi-modal diffusion transformer to facilitate the fusion of text and video modality features while constraining their independence.
+      The technical details of the 3D generation process during Droplet3D is illustrated in the above figure. For any given text or image prompt, Droplet3D first aligns it with the model. Initially, we expand the user’s input requirements based on a lightweight large language model, rewriting them into dense textual descriptions that follow the same distribution as the multi-view level captions in the Droplet3D-4M dataset. Simultaneously, to accommodate inputs from arbitrary viewpoints, we designed a anonical viewpoint alignment module to adjust the perspective of the input images. For the backbone network, we introduce a 3D causal VAE to achieve implicit space encoding and decoding of the video, and employ a multi-modal diffusion transformer to facilitate the fusion of text and video modality features while constraining their independence.
     </div>
+
+
 
   </div>
 </section>
 
 
-<section class="section" id="3DConsistency">
+
+
+<section class="section" id="FeasibleControllable">
   <div class="container">
-    <h2 class="section-title">3D Lifting from Stylized Inputs</h2>
-    <div class="content">
-      <p>
-        <b>Droplet3D</b> exhibits a relatively robust capability in lifting 2D content into 3D. 
-        Although the training data for Droplet3D-4M is entirely based on renderings from Objaverse-XL, which consists solely of object-level 3D files, Droplet3D still demonstrates a certain degree of robustness, particularly when the input images differ significantly from the training data distribution, such as stylized AIGC images like landscapes or sketches. 
-        We believe this capability may stem from its prior video training, which has endowed it with extensive general knowledge, making its 3D generation more versatile. 
-        This observation is particularly interesting, as it validates, to some extent, our hypothesis that video can facilitate 3D generation. 
-      </p>
-    </div>
-    
-    <!-- Example 1: Landscape paintings -->
-    <div class="example-block" id="ExampleBoat">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Landscape paintings</b> 
-      </div>
-      <!-- <div class="content">
-        <p>
-          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
-          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
-          The camera slowly moves from right to left, gradually revealing more background details. 
-          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
-          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
-          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
-          contrasting sharply with the distant city buildings.
-        </p>
-      </div> -->
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 你的九个视频项放在这里，不需要动内容 -->
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_001_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_002_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_003_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_004_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-      </div>
-    </div>
-
-    <br>
-    <br>
-    <!-- Example 2: comics paintings -->
-    <div class="example-block" id="ExampleBoat">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Comics paintings</b> 
-      </div>
-      <!-- <div class="content">
-        <p>
-          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
-          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
-          The camera slowly moves from right to left, gradually revealing more background details. 
-          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
-          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
-          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
-          contrasting sharply with the distant city buildings.
-        </p>
-      </div> -->
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 你的九个视频项放在这里，不需要动内容 -->
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_001_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_002_jq.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_003_jq.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_004_jq.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-      </div>
-    </div>
-
-    <br>
-    <br>
-    <!-- Example 3: sketch paintings -->
-    <div class="example-block" id="ExampleBoat">
-      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
-        <b>Sketch paintings</b> 
-      </div>
-      <!-- <div class="content">
-        <p>
-          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
-          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
-          The camera slowly moves from right to left, gradually revealing more background details. 
-          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
-          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
-          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
-          contrasting sharply with the distant city buildings.
-        </p>
-      </div> -->
-
-      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
-        <!-- 你的九个视频项放在这里，不需要动内容 -->
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_003_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_025_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_037_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-
-        <div class="video-item" style="width: 24%;">
-          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/补充/sketch_014_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
-          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="section" id="CameraMotion">
-  <div class="container">
-    <h2 class="section-title">Creativity Based on AIGC Image and Language Descriptions</h2>
+    <h2 class="section-title">Feasible Controllable-Creativity Driven by Language Prompts</h2>
       <!-- <h2 class="section-title">Controllable Motion Density</h2> -->
     <div class="content has-text-justified" style="line-height: 1.6; margin-bottom: 1.5rem;">
       <p>
@@ -1315,8 +1187,157 @@
   </div>
 </section>
 
+<section class="section" id="3DLifting">
+  <div class="container">
+    <h2 class="section-title">3D Lifting from Stylized Inputs</h2>
+    <div class="content">
+      <p>
+        <b>Droplet3D</b> exhibits a relatively robust capability in lifting 2D content into 3D. Although the training data for <b>Droplet3D-4M</b> is entirely based on renderings from Objaverse-XL, which consists solely of object-level 3D files, Droplet3D still demonstrates a certain degree of robustness, particularly when the input images differ significantly from the training data distribution, such as stylized AIGC images like comics or sketches. We believe this capability may stem from its prior video training, which has endowed it with extensive general knowledge, making its 3D generation more versatile. This observation is particularly interesting, as it validates, to some extent, our hypothesis that video can facilitate 3D generation.
+      </p>
+    </div>
+    
+    <!-- Example 2: comics paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Comics paintings</b> 
+      </div>
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
 
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_001_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
 
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_002_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_003_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/comics_paintings/comics_004_jq.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Example 3: sketch paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Sketch paintings</b> 
+      </div>
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_003_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_025_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/sketch_037_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/sketch_paintings/补充/sketch_014_lxc.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="SceneLevel">
+  <div class="container">
+    <h2 class="section-title">Scene-level 3D Content Generation</h2>
+    <div class="content">
+      <p>
+        Additionally, what excites us most is that, as presented in the following figure, our model can perform lifting on images with scene-level styles, which validates that our technical approach is fundamentally distinct from other currently popular native 3D generation methods, which are typically <b>object-level</b>. In contrast, <b>Droplet3D</b>  has the potential to convert <b>scene-level</b> content into 3D. The following figure sequentially demonstrates scene-level 3D generation for a manor, an island with lightning, a tranquil riverside at night, and a scene deep within a space station. Similar to a cinematic freeze-frame effect, our model can automatically lift these scenes to 3D, thereby reducing labor costs. From this perspective, it can also be regarded as another form of 3D asset creation. However, what is even more intriguing is that the training set, <b>Droplet3D-4M</b>, contains no scene-level samples. Therefore, this capability can be considered entirely inherited from its ancestral source, the DropletVideo video generation model.
+      </p>
+    </div>
+    
+    <!-- Example 1: Landscape paintings -->
+    <div class="example-block" id="ExampleBoat">
+      <!-- <div class="content has-text-justified" style="font-size: 1.5rem; line-height: 1.8;">
+        <b>Scene-level 3D Content Generation</b> 
+      </div> -->
+      <!-- <div class="content">
+        <p>
+          The video shows a pair of small boats floating peacefully on a tranquil lake, with a magnificent sunset sky as the backdrop. 
+          The boat on the right is slowly chasing the boat on the left, with a soft golden glow reflecting the afterglow of the setting sun. 
+          The camera slowly moves from right to left, gradually revealing more background details. 
+          The distant city skyline appears hazy and dreamlike under the sunset, with a few tall buildings faintly visible. 
+          On the left side of the frame, tree branches sway gently in the breeze, adding a touch of natural movement to the scene. 
+          <span style="color: red;">As the camera continues to move left</span>, another small boat is shown quietly moored on the water on the left side, 
+          contrasting sharply with the distant city buildings.
+        </p>
+      </div> -->
+
+      <div class="video-gallery mt-6" style="display: flex; flex-wrap: wrap; gap: 1%; justify-content: space-between;">
+        <!-- 你的九个视频项放在这里，不需要动内容 -->
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_001_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_002_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_003_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+
+        <div class="video-item" style="width: 24%;">
+          <video src="droplet3d_source/videos/stylized_Inputs/landscape_paintings/scene_004_dgg.mp4" autoplay loop muted style="width: 100%;"></video>
+          <!-- <p style="word-wrap: break-word; min-height: 50px; text-align: center;"><b>Droplet3D (ours 水滴)</b></p> -->
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+
+  </div>
+</section>
 <section class="section" id="Comparison">
   <div class="container">
     <h2 class="section-title">Comparative Examples</h2>
@@ -1634,12 +1655,18 @@
   <div class="container">
     <h2 class="section-title has-text-centered">BibTeX Citation</h2>
     <pre style="text-align: left; background: #f7f7f7; padding: 1em; border-radius: 8px; overflow-x: auto;">
-@article{droplevideo2024,
-  title={DropletVideo: Integral Spatio-Temporal Consistent Video Generation},
-  author={Zhang, Runze and Du, Guoguang and Li, Xiaochuan and Jia, Qi and Jin, Liang and Liu, Lu and Wang, Jingjing and Xu, Cong and Guo, Zhenhua and Zhao, Yaqian and Gong, Xiaoli and Li, Rengang and Fan, Baoyu},
-  journal={arXiv preprint arXiv:2406.07846},
-  year={2024}
-}
+      <!-- @article{droplevideo2024,
+        title={Droplet3D: Commonsense Priors from Videos Facilitate 3D Generation},
+        author={Zhang, Runze and Du, Guoguang and Li, Xiaochuan and Jia, Qi and Jin, Liang and Liu, Lu and Wang, Jingjing and Xu, Cong and Guo, Zhenhua and Zhao, Yaqian and Gong, Xiaoli and Li, Rengang and Fan, Baoyu},
+        journal={arXiv preprint arXiv:2406.07846},
+        year={2024}
+      } -->
+      @article{drople3d2025,
+      title={Droplet3D: Commonsense Priors from Videos Facilitate 3D Generation},
+      author={Li, Xiaochuan and Du, Guoguang and Zhang, Runze and Jin, Liang and Jia, Qi and Lu, Lihua and Guo, Zhenhua and Zhao, Yaqian and Liu, Haiyang and Wang, Tianqi and Li, Changsheng and Gong, Xiaoli and Li, Rengang and Fan, Baoyu},
+      journal={arXiv preprint arXiv:2508.xxxxx},
+      year={2025}
+    }
     </pre>
   </div>
 </section>
@@ -1647,7 +1674,7 @@
 
   <footer class="footer">
     <div class="content has-text-centered">
-      <p><strong>DropletVideo</strong> by <a href="https://github.com/IEIT-AGI">IEIT Lab</a>. Source on <a href="https://github.com/IEIT-AGI/DropletVideo">GitHub</a>.</p>
+      <p><strong>Droplet3D</strong> by <a href="https://github.com/IEIT-AGI">IEIT Lab</a>. Source on <a href="https://github.com/IEIT-AGI/Droplet3D">GitHub</a>.</p>
     </div>
   </footer>
 </body>
