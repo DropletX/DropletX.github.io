@@ -1,135 +1,243 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Droplet 欢迎页</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droplet - 欢迎页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'space': ['Space Grotesk', 'sans-serif'],
+            'chinese': ['Noto Sans SC', 'sans-serif'],
+          },
+          colors: {
+            'droplet': {
+              '3d': '#00d4aa',
+              'video': '#6366f1',
+              'dark': '#0a0a0f',
+            }
+          }
+        }
+      }
+    }
+  </script>
 
   <style>
     body {
       font-family: 'Noto Sans SC', sans-serif;
+      background: #0a0a0f;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    .bg-mask {
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(4px);
-    }
-
-    .timeline-line::before {
-      content: '';
-      position: absolute;
-      left: 1rem;
+    #particles {
+      position: fixed;
       top: 0;
-      bottom: 0;
-      width: 2px;
-      background: rgba(255, 255, 255, 0.3);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
     }
 
-    .timeline-dot {
-      width: 12px;
-      height: 12px;
-      background: white;
-      border-radius: 9999px;
-      margin-right: 12px;
-      flex-shrink: 0;
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: drift 20s infinite linear;
     }
+
+    @keyframes drift {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+    }
+
+    .gradient-bg {
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(20, 20, 30, 1) 0%, rgba(10, 10, 15, 1) 100%);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .timeline-item { opacity: 0; }
+    .quote-mark, .quote-text, .quote-author { opacity: 0; }
+    .quote-line { opacity: 0; }
+
+    .quote-mark {
+      font-size: 3rem;
+      line-height: 1;
+      background: linear-gradient(135deg, #00d4aa 0%, #6366f1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    @media (min-width: 768px) {
+      .quote-mark {
+        font-size: 6rem;
+      }
+    }
+      background-clip: text;
+      font-family: Georgia, serif;
+    }
+
+    .quote-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    @media (min-width: 768px) {
+      .quote-text {
+        font-size: 1.5rem;
+      }
+    }
+
+    .quote-author {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.625rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    @media (min-width: 768px) {
+      .quote-author {
+        font-size: 0.875rem;
+        letter-spacing: 0.2em;
+      }
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
   </style>
 </head>
+<body class="text-white gradient-bg">
+  <div id="particles"></div>
 
-<body class="text-white">
-  <div id="background" class="fixed inset-0 bg-cover bg-center z-0 transition-all duration-1000"></div>
-  <div class="fixed inset-0 bg-mask z-10"></div>
-
-  <main class="relative z-20 min-h-screen flex flex-col items-center pt-10 px-4">
-
-    <!-- 日期与名言 -->
-    <div class="text-center max-w-2xl mb-10">
-      <div class="text-2xl mb-2" id="date-top"></div>
-      <div class="text-base mb-4" id="date-lunar"></div>
-      <div class="text-6xl font-bold mb-8" id="date-number"></div>
-
-      <div class="text-xl leading-relaxed">"what i cannot create i do not understand"</div>
-      <div class="mt-2 text-base text-white/80">Richard Feynman</div>
+  <nav class="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-3 md:py-4">
+    <div class="max-w-6xl mx-auto">
+      <a href="#" class="text-xl md:text-2xl font-bold font-space tracking-tight">
+        <i class="fas fa-droplet mr-1 md:mr-2 text-cyan-400"></i>
+        <span class="font-chinese">Droplet</span>
+      </a>
     </div>
+  </nav>
 
-    <div class="flex justify-center">
-      <div class="relative timeline-line w-full max-w-md flex flex-col items-start gap-6">
-        <!-- 项目节点 -->
-         <div class="flex items-center gap-3">
-          <!-- 时间节点（左边） -->
-          <div class="absolute left-[-70px] text-lg text-white">2025.08</div>
-          
-          <div class="timeline-dot"></div>
-          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
-            <span class="text-lg font-medium">Droplet-3D</span>
-            <a href="./Droplet3D.html"
-              class="text-sm text-white px-3 py-1 bg-green-500 hover:bg-green-600 rounded-full transition">Enter</a>
-          </div>
+  <main class="relative z-10 min-h-screen flex flex-col">
+    <section class="flex-1 flex items-center justify-center pt-16 md:pt-20 pb-8 md:pb-10 px-4 md:px-6">
+      <div class="max-w-2xl mx-auto text-center w-full">
+        <!-- 名言 -->
+        <div class="quote-container mb-6 md:mb-12 pt-2">
+          <div class="quote-mark">"</div>
+          <p class="quote-text text-white px-2" id="quote">
+            WHAT I CANNOT CREATE, I DO NOT UNDERSTAND
+          </p>
+          <div class="w-10 md:w-14 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent mx-auto my-2 md:my-6"></div>
+          <p class="quote-author">— Richard Feynman</p>
         </div>
 
-        
-        <div class="flex items-center gap-3">
-          <!-- 时间节点（左边） -->
-          <div class="absolute left-[-70px] text-lg text-white">2025.03</div>
-          
-          <div class="timeline-dot"></div>
-          <div class="flex justify-between items-center w-80 border border-white/40 rounded-xl px-4 py-3 bg-white/10 hover:bg-white/20 transition">
-            <span class="text-lg font-medium">Droplet-Video</span>
-            <a href="./DropletVideo.html"
-              class="text-sm text-white px-3 py-1 bg-blue-500 hover:bg-blue-600 rounded-full transition">Enter</a>
+        <!-- 项目列表 -->
+        <div id="projects" class="space-y-3 md:space-y-4">
+          <!-- Droplet3D -->
+          <div class="timeline-item group cursor-pointer" onclick="window.location.href='./Droplet3D.html'">
+            <div class="glass-card rounded-2xl p-4 md:p-5 hover:scale-[1.02] transition-transform">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2 md:gap-3">
+                  <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-emerald-500 flex items-center justify-center">
+                    <i class="fas fa-cube text-sm"></i>
+                  </div>
+                  <h3 class="text-base md:text-lg font-semibold">Droplet-3D</h3>
+                </div>
+                <span class="text-xs md:text-sm text-cyan-400/70">2025.08</span>
+              </div>
+              <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-left">
+                A large-scale video dataset (Droplet3D-4M) with multi-view annotations and a generative model (Droplet3D) supporting image and dense text input. Produces spatially consistent and semantically plausible 3D content.
+              </p>
+            </div>
+          </div>
+
+          <!-- DropletVideo -->
+          <div class="timeline-item group cursor-pointer" onclick="window.location.href='./DropletVideo.html'">
+            <div class="glass-card rounded-2xl p-4 md:p-5 hover:scale-[1.02] transition-transform">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2 md:gap-3">
+                  <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center">
+                    <i class="fas fa-video text-sm"></i>
+                  </div>
+                  <h3 class="text-base md:text-lg font-semibold">Droplet-Video</h3>
+                </div>
+                <span class="text-xs md:text-sm text-indigo-400/70">2025.03</span>
+              </div>
+              <p class="text-gray-400 text-xs md:text-sm leading-relaxed text-left">
+                Explores integral spatio-temporal consistency in video generation. DropletVideo-10M contains 10M videos with camera movements. The model excels at preserving spatio-temporal coherence.
+              </p>
+            </div>
           </div>
         </div>
-
-        
       </div>
-    </div>
-
-    <!-- 切换背景 -->
-    <button onclick="refreshContent()" class="mt-8 px-4 py-2 border border-white rounded-full hover:bg-white hover:text-black transition">
-      切换背景
-    </button>
-
+    </section>
   </main>
 
-  <!-- 音乐播放器 -->
-  <div class="fixed bottom-4 left-4 z-30">
-    <details>
-      <summary class="cursor-pointer text-white">🎵 Music</summary>
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX3Ogo9pFvBkY" width="300" height="80"
-        frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"></iframe>
-    </details>
-  </div>
-
-  <!-- JS 脚本 -->
   <script>
-    function setRandomBackground() {
-      const bgUrl = `https://picsum.photos/1920/1080?random=${Math.random()}`;
-      document.getElementById('background').style.backgroundImage = `url('${bgUrl}')`;
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const colors = ['#00d4aa', '#6366f1', '#f472b6', '#fbbf24'];
+      for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 6 + 2;
+        p.style.cssText = `
+          width: ${size}px; height: ${size}px; background: ${colors[Math.floor(Math.random() * colors.length)]};
+          left: ${Math.random() * 100}%;
+          animation-delay: -${Math.random() * 20}s;
+          animation-duration: ${Math.random() * 20 + 15}s;
+        `;
+        container.appendChild(p);
+      }
     }
 
-    function updateDate() {
-      const now = new Date();
-      const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-      const lunar = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十'];
-
-      document.getElementById('date-top').innerText = `${now.getMonth() + 1}月${now.getDate()}日`;
-      document.getElementById('date-lunar').innerText = `${weekdays[now.getDay()]} · 农历七月${lunar[now.getDate() % 10]}`;
-      document.getElementById('date-number').innerText = now.getDate();
+    function initAnimations() {
+      anime({ targets: '.quote-mark', opacity: [0, 0.5], scale: [0.5, 1], duration: 1200, easing: 'easeOutQuad' });
+      anime({ targets: '.quote-text', opacity: [0, 1], translateY: [20, 0], duration: 1000, delay: 300, easing: 'easeOutQuad' });
+      anime({ targets: '.quote-line', opacity: [0, 1], width: [0, 60], duration: 1000, delay: 600, easing: 'easeOutQuad' });
+      anime({ targets: '.quote-author', opacity: [0, 1], duration: 1000, delay: 800, easing: 'easeOutQuad' });
+      anime({ targets: '.timeline-item', opacity: [0, 1], translateX: [30, 0], delay: anime.stagger(300, { start: 600 }), duration: 800, easing: 'easeOutQuad' });
     }
 
-    function refreshContent() {
-      setRandomBackground();
-      anime({ targets: '#quote-text', opacity: [0, 1], duration: 800, easing: 'easeInOutQuad' });
-    }
-
-    updateDate();
-    setRandomBackground();
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      initAnimations();
+    });
   </script>
 </body>
 </html>
